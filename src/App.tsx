@@ -72,7 +72,10 @@ function Home() {
             <span className="chip" key={role}>{role}</span>
           ))}
         </p>
-        {/* TODO(owner): add GitHub, LinkedIn, and resume links here once ready. */}
+        <p style={{ marginTop: 12, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <a className="btn small" href="https://www.linkedin.com/in/zayyanmlatif/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a className="btn small" href="https://github.com/zayyanla-hash" target="_blank" rel="noopener noreferrer">GitHub</a>
+        </p>
         <h1>SignalDesk and FrictionLab</h1>
         <p>
           Two small working tools I built around problems I keep running into on GTM and product teams: deciding which accounts
