@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.local
+.local/
+scripts/.test-scratch-*/
+.e2e-tmp/
+.e2e-shots/
+.DS_Store

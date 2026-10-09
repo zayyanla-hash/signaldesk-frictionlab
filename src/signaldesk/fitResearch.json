@@ -1,0 +1,158 @@
+{
+  "retrieved_date": "2026-10-09",
+  "method": "WebFetch/WebSearch against each company's own official developer documentation domain; every documented:true record cites the exact page fetched/confirmed and a short original paraphrase.",
+  "capabilities": [
+    "signature_verification",
+    "retry_policy",
+    "delivery_logs",
+    "manual_redelivery",
+    "event_filtering",
+    "local_testing"
+  ],
+  "records": [
+    {
+      "company": "Stripe",
+      "domain": "stripe.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "Verify the Stripe-Signature header, an HMAC-SHA256 signature, using official libraries or the documented manual steps."},
+        "retry_policy": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "Live mode retries failed deliveries for up to 3 days with exponential backoff; sandbox retries 3 times over a few hours."},
+        "delivery_logs": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "The Event deliveries tab lists events as Delivered, Pending, or Failed with HTTP status and timing details."},
+        "manual_redelivery": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "Click Resend on an event in the Dashboard, or run `stripe events resend <id>` via the Stripe CLI."},
+        "event_filtering": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "When creating an endpoint, select only the specific event types you want delivered instead of all events."},
+        "local_testing": {"documented": true, "source_url": "https://docs.stripe.com/webhooks", "paraphrase": "Stripe CLI's `stripe listen` forwards events to localhost and `stripe trigger` fires sample test events."}
+      }
+    },
+    {
+      "company": "Twilio",
+      "domain": "twilio.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://www.twilio.com/docs/usage/webhooks/webhooks-security", "paraphrase": "Check the X-Twilio-Signature header, an HMAC-SHA1 of the URL and parameters, using Twilio's SDK validation helpers."},
+        "retry_policy": {"documented": true, "source_url": "https://www.twilio.com/docs/usage/webhooks/webhooks-connection-overrides", "paraphrase": "Webhooks support a configurable retry count (0-5) and retry policy covering 4xx, 5xx, connect failures, or timeouts."},
+        "delivery_logs": {"documented": true, "source_url": "https://www.twilio.com/docs/usage/troubleshooting/debugging-your-application", "paraphrase": "The Console Debugger lists error, warning, and info events, including failed webhook requests, for troubleshooting."},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://www.twilio.com/docs/events", "paraphrase": "Event Streams subscriptions link a list of specific event type IDs to a chosen Sink (webhook, Kinesis, Segment)."},
+        "local_testing": {"documented": true, "source_url": "https://www.twilio.com/docs/usage/webhooks/webhook-testing", "paraphrase": "Webhooks Configuration API offers a test-delivery resource, and docs describe using ngrok tunnels for local testing."}
+      }
+    },
+    {
+      "company": "Slack",
+      "domain": "slack.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://api.slack.com/authentication/verifying-requests-from-slack", "paraphrase": "Verify the X-Slack-Signature header, an HMAC-SHA256 of the versioned request body using your signing secret."},
+        "retry_policy": {"documented": true, "source_url": "https://docs.slack.dev/apis/events-api/", "paraphrase": "Failed Events API deliveries are retried up to 3 times with increasing delays: immediate, 1 minute, 5 minutes."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://docs.slack.dev/apis/events-api/", "paraphrase": "Apps choose specific workspace and bot event types to subscribe to in the Event Subscriptions settings."},
+        "local_testing": {"documented": true, "source_url": "https://api.slack.com/apis/socket-mode", "paraphrase": "Socket Mode lets an app receive events over a WebSocket during local development without a public URL or tunnel."}
+      }
+    },
+    {
+      "company": "GitHub",
+      "domain": "github.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries", "paraphrase": "Compute an HMAC-SHA256 hash of the payload with your secret and compare it to X-Hub-Signature-256 using constant-time comparison."},
+        "retry_policy": {"documented": false, "source_url": "https://docs.github.com/en/webhooks/using-webhooks/handling-failed-webhook-deliveries", "note": "Docs explicitly state GitHub does not automatically redeliver failed webhook deliveries; redelivery must be manual or scripted."},
+        "delivery_logs": {"documented": true, "source_url": "https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks", "paraphrase": "The Recent Deliveries view and API list past delivery attempts with request headers, payload, and response."},
+        "manual_redelivery": {"documented": true, "source_url": "https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/redelivering-webhooks", "paraphrase": "Any individual past webhook delivery can be redelivered from the Recent Deliveries UI or via the REST API."},
+        "event_filtering": {"documented": true, "source_url": "https://docs.github.com/en/webhooks/using-webhooks/creating-webhooks", "paraphrase": "Choose 'Let me select individual events' when creating a webhook to subscribe only to specific event types."},
+        "local_testing": {"documented": true, "source_url": "https://docs.github.com/en/webhooks/testing-and-troubleshooting-webhooks/testing-webhooks", "paraphrase": "Use the smee.io webhook proxy (smee-client) to forward deliveries to your computer, plus redeliver ping/push test events."}
+      }
+    },
+    {
+      "company": "HubSpot",
+      "domain": "hubspot.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developers.hubspot.com/docs/api/webhooks/validating-requests", "paraphrase": "Validate the X-HubSpot-Signature-V3 (or legacy v1/v2) HMAC/SHA-256 hash built from client secret, body, and timestamp."},
+        "retry_policy": {"documented": true, "source_url": "https://developers.hubspot.com/docs/api-reference/latest/webhooks/guide", "paraphrase": "Failed notifications are retried up to 10 times, spread out with randomized delays over a 24-hour period."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://developers.hubspot.com/docs/api-reference/latest/webhooks/guide", "paraphrase": "Subscriptions specify an object/association type plus a list of actions (CREATE, UPDATE, DELETE, etc.) to receive."},
+        "local_testing": {"documented": false, "note": "not found in official docs"}
+      }
+    },
+    {
+      "company": "Shopify",
+      "domain": "shopify.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://shopify.dev/docs/apps/build/webhooks", "paraphrase": "Verify the X-Shopify-Hmac-SHA256 header against an HMAC-SHA256 digest and ignore duplicates via the webhook ID."},
+        "retry_policy": {"documented": true, "source_url": "https://shopify.dev/docs/apps/build/webhooks/troubleshoot", "paraphrase": "Failed deliveries retry up to eight times over four hours with increasing intervals; the subscription is removed after the final failed attempt."},
+        "delivery_logs": {"documented": true, "source_url": "https://shopify.dev/docs/apps/build/webhooks/troubleshoot", "paraphrase": "The Dev Dashboard Logs page lists individual deliveries from the past 7 days, filterable by topic, status, and shop."},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://shopify.dev/docs/apps/build/webhooks", "paraphrase": "Apps configure which specific topics they subscribe to and where each topic's deliveries are sent."},
+        "local_testing": {"documented": true, "source_url": "https://www.shopify.dev/docs/api/shopify-cli/app/app-webhook-trigger", "paraphrase": "The Shopify CLI `app webhook trigger` command sends a sample payload for a chosen topic to a local address."}
+      }
+    },
+    {
+      "company": "Notion",
+      "domain": "notion.so",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developers.notion.com/reference/webhooks", "paraphrase": "Validate payloads with an HMAC-SHA256 verification token; the SDK offers a verifyWebhookSignature() helper method."},
+        "retry_policy": {"documented": true, "source_url": "https://developers.notion.com/reference/webhooks-events-delivery", "paraphrase": "Delivery is retried up to 8 times with exponential backoff, with the final retry about 24 hours after the trigger."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://developers.notion.com/reference/webhooks-events-delivery", "paraphrase": "Update a subscription's Webhooks tab on the connection page to choose which event types the endpoint receives."},
+        "local_testing": {"documented": false, "note": "not found in official docs"}
+      }
+    },
+    {
+      "company": "Linear",
+      "domain": "linear.app",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://linear.app/developers/webhooks", "paraphrase": "Verify the Linear-Signature header, an HMAC-SHA256 of the raw body computed using the webhook's signing secret."},
+        "retry_policy": {"documented": true, "source_url": "https://linear.app/developers/webhooks", "paraphrase": "Failed deliveries are retried up to 3 times with backoff, retried after 1 minute, 1 hour, and 6 hours."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://linear.app/developers/webhooks", "paraphrase": "The webhookCreate mutation's resourceTypes parameter selects specific entity types, e.g. Issue, Comment, Project."},
+        "local_testing": {"documented": false, "note": "not found in official docs; page only suggests third-party requestbin.com"}
+      }
+    },
+    {
+      "company": "Intercom",
+      "domain": "intercom.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developers.intercom.com/docs/references/webhooks/webhook-models", "paraphrase": "The X-Hub-Signature header is a hex HMAC-SHA1 digest of the body computed with the app's client secret."},
+        "retry_policy": {"documented": true, "source_url": "https://developers.intercom.com/docs/webhooks/webhook-notifications", "paraphrase": "Resends once if no HTTP 200 within 5000ms, throttles on 429 responses, and pauses after 1000 consecutive errors."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://developers.intercom.com/docs/webhooks", "paraphrase": "A webhook subscription lets you choose and enable specific topics, such as conversation or contact events."},
+        "local_testing": {"documented": false, "note": "not found in official docs"}
+      }
+    },
+    {
+      "company": "Zendesk",
+      "domain": "zendesk.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developer.zendesk.com/documentation/webhooks/creating-and-monitoring-webhooks/", "paraphrase": "Webhooks page links to signature verification docs describing use of a signing secret to confirm requests came from Zendesk."},
+        "retry_policy": {"documented": true, "source_url": "https://developer.zendesk.com/documentation/webhooks/creating-and-monitoring-webhooks/", "paraphrase": "Invocations auto-retry up to three times for 409 responses and up to five times for connection timeouts."},
+        "delivery_logs": {"documented": true, "source_url": "https://developer.zendesk.com/documentation/webhooks/creating-and-monitoring-webhooks/", "paraphrase": "An activity log captures every webhook invocation and its status for the last seven days."},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://developer.zendesk.com/documentation/webhooks/creating-and-monitoring-webhooks/", "paraphrase": "A webhook can be created specifying one or more supported event types it should subscribe to."},
+        "local_testing": {"documented": false, "note": "not found in official docs; Admin Center 'Test' button not confirmed on an official developer.zendesk.com page"}
+      }
+    },
+    {
+      "company": "Asana",
+      "domain": "asana.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developers.asana.com/docs/webhooks-guide", "paraphrase": "Compare an HMAC signature computed from the X-Hook-Secret and request body against the X-Hook-Signature header."},
+        "retry_policy": {"documented": true, "source_url": "https://developers.asana.com/docs/webhooks-guide", "paraphrase": "Failed deliveries retry with exponential backoff; the webhook is deleted if undelivered after 24 hours."},
+        "delivery_logs": {"documented": true, "source_url": "https://developers.asana.com/docs/webhooks-guide", "paraphrase": "The webhook resource exposes last_failure_at, last_success_at, delivery_retry_count, and next_attempt_after via a GET request."},
+        "manual_redelivery": {"documented": false, "source_url": "https://developers.asana.com/docs/webhooks-guide", "note": "Docs explicitly state webhooks cannot be replayed once delivered."},
+        "event_filtering": {"documented": true, "source_url": "https://developers.asana.com/docs/webhooks-guide", "paraphrase": "Filters specified at webhook creation restrict notifications to chosen resource types and actions."},
+        "local_testing": {"documented": false, "note": "not found in official docs; page only recommends third-party ngrok tunneling"}
+      }
+    },
+    {
+      "company": "Atlassian",
+      "domain": "atlassian.com",
+      "capabilities": {
+        "signature_verification": {"documented": true, "source_url": "https://developer.atlassian.com/cloud/jira/platform/webhooks/", "paraphrase": "A secret token generates an HMAC signature sent as X-Hub-Signature, formatted method=signature, for admin/REST webhooks."},
+        "retry_policy": {"documented": true, "source_url": "https://developer.atlassian.com/cloud/jira/platform/webhooks/", "paraphrase": "Jira Cloud resends failed webhooks up to five times using randomized exponential backoff, first retry after about 10 seconds."},
+        "delivery_logs": {"documented": false, "note": "not found in official docs as a general dashboard; only a 'Get failed webhooks' API operation listing undelivered webhooks exists"},
+        "manual_redelivery": {"documented": false, "note": "not found in official docs"},
+        "event_filtering": {"documented": true, "source_url": "https://developer.atlassian.com/cloud/jira/platform/webhooks/", "paraphrase": "Webhook registration accepts a JQL query to restrict delivery to matching issues, plus a list of event types."},
+        "local_testing": {"documented": false, "note": "not found in official docs"}
+      }
+    }
+  ]
+}
