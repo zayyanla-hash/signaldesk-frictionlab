@@ -1,0 +1,5 @@
+event_id,user_id,stage,occurred_at
+same,A,signed_up,2025-04-01T00:00:00Z
+same,A,connected_data,2025-04-02T00:00:00Z
+bad,B,first_action,2025-02-30T00:00:00Z
+missing,,signed_up,2025-04-01T00:00:00Z

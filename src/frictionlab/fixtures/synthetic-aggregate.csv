@@ -1,0 +1,7 @@
+cohort_id,segment,stage,count,grain,window_days,cohort_start,cohort_end,observed_through
+example-apr01,Desktop,signed_up,600,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+example-apr01,Desktop,connected_data,390,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+example-apr01,Desktop,first_action,300,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+example-apr01,Mobile,signed_up,400,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+example-apr01,Mobile,connected_data,160,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+example-apr01,Mobile,first_action,100,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z

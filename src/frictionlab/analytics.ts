@@ -1,3 +1,5 @@
+// Legacy v1 account funnel, retained for the older handoff adapter and its tests.
+// The current user-grain workbench uses workbench.ts; these contracts must not mix.
 import { parseStrictTimestamp } from '../lib/datetime';
 import { ACTIVATION_WINDOW_DAYS, EARLIEST_SIGNUP_ISO, SNAPSHOT_ISO, type LabEvent } from './types';
 

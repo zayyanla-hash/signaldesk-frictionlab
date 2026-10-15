@@ -1,0 +1,4 @@
+cohort_id,stage,count,grain,window_days,cohort_start,cohort_end,observed_through
+hand,signed_up,10,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+hand,connected_data,5,cohort_users,3,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z
+hand,first_action,1,cohort_users,7,2025-04-01T00:00:00Z,2025-04-08T00:00:00Z,2025-04-15T00:00:00Z

@@ -1,0 +1,250 @@
+[
+  {
+    "file": "synthetic-aggregate.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      1000,
+      550,
+      400
+    ]
+  },
+  {
+    "file": "eight-user-events.csv",
+    "contract": {
+      "source": "event_log",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-09T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": false
+    },
+    "counts": [
+      7,
+      5,
+      3
+    ],
+    "immature": 1,
+    "repeats": 1
+  },
+  {
+    "file": "eight-user-events.csv",
+    "contract": {
+      "source": "event_log",
+      "grain": "cohort_users",
+      "windowDays": 3,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-09T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": false
+    },
+    "counts": [
+      8,
+      5,
+      2
+    ],
+    "ignored": 1
+  },
+  {
+    "file": "zero-cohort.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      0,
+      0,
+      0
+    ]
+  },
+  {
+    "file": "zero-middle.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      100,
+      0,
+      0
+    ]
+  },
+  {
+    "file": "small-cohort.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      8,
+      3,
+      1
+    ]
+  },
+  {
+    "file": "non-monotonic-cohort.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "error": "non-monotonic"
+  },
+  {
+    "file": "missing-count.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "error": "count"
+  },
+  {
+    "file": "missing-stage.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "error": "missing-stage"
+  },
+  {
+    "file": "independent-events.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "events",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      10,
+      20,
+      40
+    ]
+  },
+  {
+    "file": "independent-users.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "unique_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "counts": [
+      10,
+      20,
+      15
+    ]
+  },
+  {
+    "file": "mixed-windows.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "error": "incompatible"
+  },
+  {
+    "file": "mixed-cohorts.csv",
+    "contract": {
+      "source": "aggregate",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-08T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": true
+    },
+    "error": "cohort"
+  },
+  {
+    "file": "duplicate-events.csv",
+    "contract": {
+      "source": "event_log",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-09T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": false
+    },
+    "error": "duplicate"
+  },
+  {
+    "file": "invalid-timestamp.csv",
+    "contract": {
+      "source": "event_log",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-09T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": false
+    },
+    "error": "timestamp"
+  },
+  {
+    "file": "out-of-order-events.csv",
+    "contract": {
+      "source": "event_log",
+      "grain": "cohort_users",
+      "windowDays": 7,
+      "cohortStart": "2025-04-01T00:00:00Z",
+      "cohortEnd": "2025-04-09T00:00:00Z",
+      "observedThrough": "2025-04-15T00:00:00Z",
+      "aggregateConfirmed": false
+    },
+    "counts": [
+      7,
+      4,
+      2
+    ],
+    "ignored": 2
+  }
+]
