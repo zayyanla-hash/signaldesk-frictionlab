@@ -45,7 +45,7 @@ check('SignalDesk actual Markdown carries analysis and provenance', md.includes(
 await capture({ path: path.join(out, 'signaldesk-desktop.png') });
 await page.click('.sd-r-sidebar a[href="/"]'); await page.waitForSelector('.home', { state: 'visible' });
 await page.click('text="Open FrictionLab"'); await page.waitForSelector('#analysis-title', { state: 'visible' });
-check('SPA navigation loads current FrictionLab with both stylesheets loaded', (await content()).includes('Find the friction.') && (await noOverflow()).scroll <= 1440);
+check('SPA navigation loads current FrictionLab with both stylesheets loaded', (await content()).includes('Conversion overview') && (await content()).includes('Stage details') && (await noOverflow()).scroll <= 1440);
 await page.click('text=Draft a test for this stage');
 await page.fill('#hypothesis', 'Joint verification hypothesis: a clearer first action may improve this transition. This remains untested.');
 await page.waitForFunction(() => localStorage.getItem('frictionlab-workbench-v2')?.includes('Joint verification hypothesis'));

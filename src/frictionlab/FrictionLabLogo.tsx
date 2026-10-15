@@ -1,10 +1,9 @@
-/** A measured narrowing: three offset cuts and a single selected endpoint. */
+/** Three measured stages, narrowing into a single continuous path. */
 export function FrictionLabLogo() {
   return (
-    <svg className="fi-logo" width={34} height={34} viewBox="0 0 34 34" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 5H31M7 13H27M11 21H23" fill="none" stroke="currentColor" strokeWidth="3" />
-      <path d="M15 29H19" fill="none" stroke="#e27b60" strokeWidth="4" />
-      <path d="M3 1V9M31 1V9" fill="none" stroke="currentColor" strokeWidth="1" opacity=".45" />
+    <svg className="fi-logo" width={28} height={28} viewBox="0 0 28 28" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 4h5v20H3zM11.5 9h5v15h-5zM20 15h5v9h-5z" fill="currentColor" />
+      <path d="M8 8.5c1.75 0 1.75 4.5 3.5 4.5M16.5 14c1.75 0 1.75 5 3.5 5" fill="none" stroke="currentColor" strokeWidth="1.5" />
     </svg>
   );
 }

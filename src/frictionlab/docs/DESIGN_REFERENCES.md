@@ -1,30 +1,31 @@
-# FrictionLab: analytical folio
+# FrictionLab: an analytical workspace
 
-Implemented October 14, 2026. Presentation-only work in `FrictionLabApp.tsx`, `FrictionLabLogo.tsx`, and `instrument.css`.
+Second design pass, October 14, 2026. Presentation work is scoped to `FrictionLabApp.tsx`, `FrictionLabLogo.tsx`, and `instrument.css`.
 
-## Direction
+## What changed
 
-The funnel is a measuring instrument inside a working paper. Warm paper, charcoal ink, a large exact reading, a connected plot, calibrated ticks, and vermilion inspection marks establish an identity separate from SignalDesk. The evidence and experiment areas continue the same editorial grid. This is a working analysis tool from the first screen, not a marketing page.
+The actual dataset now leads the page. A compact, exact conversion reading sits above the connected funnel; selecting a stage updates a nearby inspector with its count, denominator, rate and observed loss. A direct link opens the supporting evidence below. The inspector also preserves the triage explanation and the boundary between an observed gap and an unknown cause.
 
-The supplied synthetic counts, statistical boundaries, cohort definitions, validation, experiment draft, local persistence and HTML decision-brief export are preserved. There are no new dependencies, external requests, made-up customer claims, or chart count-up effects.
+White application chrome, restrained jade, one locally bundled sans family, quiet rules and a wider plot replace the earlier warm-paper poster treatment. Large slogans, oversized statistics, numbered navigation, calibration corners and repeated editorial labels were removed. The experiment form follows the evidence using the same type, spacing, controls and color system.
 
-## References and their specific influence
+This remains a portfolio work sample. Synthetic provenance, source definitions, observation limits and AI assistance credit are visible. Independent event/user counts use activity or reach wording rather than conversion claims. The supplied counts, mathematical model, validation, persistence and decision-brief export are unchanged.
 
-- [Linear — How we redesigned the Linear UI](https://linear.app/now/how-we-redesigned-the-linear-ui): reduced chrome noise, consistent alignment and contrast, and strong hierarchy. Applied through common margins, a single instrument header, and compact controls. FrictionLab does not reproduce Linear's layout or palette.
-- [Rauno Freiberg — Invisible Details of Interaction Design](https://rauno.me/craft/interaction-design), discovered through [Craft](https://rauno.me/craft): immediate response, spatial continuity and interruptible interactions. Applied to the selected-stage frame; values and evidence update immediately and rapid selection never queues an animation.
-- [Emil Kowalski — Good vs Great Animations](https://emilkowal.ski/ui/good-vs-great-animations): motion should suit the task, and functional chart updates can be immediate. Applied to nonanimated chart geometry and numbers, with restrained ease-out emphasis transitions.
-- [VengeanceUI](https://www.vengenceui.com/), [official repository](https://github.com/Ashutoshx7/VengeanceUI): its free `line-hover-link` registry component's `slide` variant was adapted into `.fi-topbar nav a::before` and `.fi-portfolio::before`. This is an actual source adaptation: the underline scales in with its transform origin switching from right to left on hover/focus. Only the needed CSS pattern is included; no installer, runtime or package was added. Original MIT notice follows.
+## References actually reviewed
 
-The specific warm palette, typography, split instrument, funnel geometry, corner calibration frame, and new logo are bespoke. Reference principles inform the result rather than acting as a template.
+- [Linear — How we redesigned the Linear UI](https://linear.app/now/how-we-redesigned-the-linear-ui): the useful principles are reducing visual noise, making data and navigation hierarchy distinct, and aligning a complete working surface. This pass applies those ideas through compact chrome and a chart/inspector relationship. No Linear source code, artwork, palette or screen was copied.
+- [Emil Kowalski — Good vs Great Animations](https://emilkowal.ski/ui/good-vs-great-animations): repeated task interactions should stay quick. Stage selections update immediately; only the selection emphasis travels and the new inspector context briefly fades. No source code was copied.
+- [VengeanceUI](https://www.vengenceui.com/), [official repository](https://github.com/Ashutoshx7/VengeanceUI), [MIT license](https://github.com/Ashutoshx7/VengeanceUI/blob/main/LICENSE): the prior pass adapted the free `line-hover-link` component's slide underline. This pass retains that small CSS adaptation in the top navigation and portfolio link. Its transform origin changes on hover/focus. The official MIT license and copyright were rechecked during this pass; the notice is retained below and in the root notice file. No component installer, runtime dependency or paid source was added.
 
-## Motion contract
+The logo, workspace arrangement, stage inspector, connected funnel styling and form layout are original. Reference pages inform specific decisions, not a borrowed template.
 
-- Initial hierarchy arrives once over 480–560 ms with only 9 px movement and a maximum 90 ms stagger. Starting opacity remains 0.65, so content is never hidden behind JavaScript or animation completion.
-- Selecting a stage immediately updates the values, pressed state, and evidence. The single chart inspection frame moves over 260 ms; bar emphasis changes over 180 ms. Actual bar height and counts never interpolate.
-- Buttons, fields and link underlines acknowledge interaction in 150–240 ms. No continuous animation, fake activity, cursor replacement, or scroll hijacking.
-- Import, native details and notices enter locally. State never depends on an animation event.
-- `prefers-reduced-motion: reduce` disables every animation and transition, including pseudo-elements. Programmatic smooth scrolling also checks that preference and becomes immediate. All final content, focus rings and selected states remain available.
-- The full chart fits the mobile column; native stage buttons provide readable values and keyboard access. Chart tick values use distinct integer counts for very small datasets.
+## Interaction and accessibility
+
+- Counts, percentages, bar heights and connecting curves update immediately. There is no number counting or animated measurement.
+- The chart's selection emphasis moves over 240 ms, selected fill changes over 160 ms, and the selected inspector context fades over 180 ms. No continuous motion or entrance delay hides the analysis.
+- Native stage buttons remain keyboard accessible and preserve their pressed state. The SVG retains its exact text alternative. Focus rings remain visible.
+- Native inputs, CSV validation, details disclosures, export and browser storage feedback retain their contracts and labels.
+- The layout becomes one column on small screens: chart, stage controls, then the selected inspector. All exact values remain visible. Long dataset titles wrap.
+- Reduced-motion preference disables CSS animation/transition and programmatic smooth scrolling. Interaction does not depend on animation events.
 
 ## VengeanceUI MIT notice
 

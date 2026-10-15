@@ -77,7 +77,8 @@ check(
 );
 check(
   "meaningful content / no overlay",
-  (await text("h1")).includes("Find the friction") &&
+  (await text("#analysis-title")).trim().length > 0 &&
+    (await text(".fi-reading")).includes("Stage details") &&
     !(await state()).errorOverlay,
 );
 // Reset only this app workspace through its own visible control, preserving other app data.

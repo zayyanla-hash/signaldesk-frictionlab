@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  ArrowDown,
   ArrowRight,
   Check,
   Download,
@@ -10,7 +9,6 @@ import {
   Upload,
   X,
 } from "lucide-react";
-import "@fontsource-variable/dm-sans";
 import "@fontsource-variable/geist";
 import "./instrument.css";
 import { FrictionLabLogo } from "./FrictionLabLogo";
@@ -83,7 +81,7 @@ export default function FrictionLabApp() {
   const importRef = useRef<HTMLElement>(null);
   const location = useLocation();
   useEffect(() => {
-    document.title = "Funnel analysis & experiments · FrictionLab";
+    document.title = "FrictionLab — Funnel analysis work sample by Zayyan Latif";
   }, []);
   useEffect(() => {
     if (location.pathname.endsWith("/decision"))
@@ -176,6 +174,7 @@ export default function FrictionLabApp() {
   const c = workspace.dataset.contract;
   const cohort = c.grain === "cohort_users";
   const overallReading = analysis.overall === null ? "—" : pct(analysis.overall);
+  const inspected = analysis.metrics[selected];
   return (
     <div className="fi-root">
       <a className="fi-skip-link" href="#main">
@@ -184,17 +183,12 @@ export default function FrictionLabApp() {
       <header className="fi-topbar">
         <Link to="/frictionlab" className="fi-brand">
           <FrictionLabLogo />
-          <span>
-            FrictionLab
-            <span className="fi-brand-sub">
-              Funnel analysis / experiment design
-            </span>
-          </span>
+          <span>FrictionLab</span>
         </Link>
         <nav aria-label="FrictionLab">
-          <a href="#main"><span aria-hidden="true">01</span> Analyze</a>
-          <a href="#evidence"><span aria-hidden="true">02</span> Evidence</a>
-          <a href="#experiment"><span aria-hidden="true">03</span> Experiment</a>
+          <a href="#main">Analysis</a>
+          <a href="#evidence">Evidence</a>
+          <a href="#experiment">Experiment</a>
         </nav>
         <Link to="/" className="fi-portfolio">
           Zayyan Latif <ArrowRight size={14} aria-hidden="true" />
@@ -202,7 +196,7 @@ export default function FrictionLabApp() {
       </header>
       <main id="main" className="fi-main" tabIndex={-1}>
         <div className="fi-workbar">
-          <span className="fi-eyebrow">WORK SAMPLE 02 / PRODUCT ANALYTICS</span>
+          <span className="fi-workspace-label">Funnel workspace <span>/</span> Product analytics</span>
           <span className="fi-save" role={saveError ? "alert" : "status"}>
             {saveStatus}
           </span>
@@ -210,10 +204,9 @@ export default function FrictionLabApp() {
         <div className="fi-heading">
           <div>
             <h1 id="analysis-title" tabIndex={-1}>
-              <span>Find the friction.</span>{" "}
-              <span className="fi-heading-next">Design the test.</span>
+              {workspace.dataset.name}
             </h1>
-            <p>Trace every number. Separate what happened from why.</p>
+            <p>{cohort ? "Follow the conversion path. Build a test from the evidence." : "Inspect independent stage counts. Build a measurement plan."}</p>
           </div>
           <button
             className="fi-button fi-dark"
@@ -266,7 +259,6 @@ export default function FrictionLabApp() {
                 ? "SYNTHETIC EXAMPLE"
                 : "IMPORTED · UNVERIFIED"}
             </span>
-            <strong>{workspace.dataset.name}</strong>
             <span>
               {analysis.valid.rows} rows ·{" "}
               {c.source === "aggregate" ? "aggregate counts" : "event log"}
@@ -322,7 +314,7 @@ export default function FrictionLabApp() {
         </section>
         <section className="fi-analysis" aria-labelledby="funnel-title">
           <div className="fi-instrument-header">
-            <span className="fi-eyebrow"><i aria-hidden="true" /> 01 / THE FUNNEL</span>
+            <h2 id="funnel-title">{cohort ? "Conversion overview" : c.grain === "events" ? "Activity overview" : "User reach overview"}</h2>
                 <label className="fi-segment">
                   Segment
                   <select
@@ -343,10 +335,10 @@ export default function FrictionLabApp() {
             <div className="fi-primary">
               <span className="fi-eyebrow">
                 {cohort
-                  ? `${c.windowDays}-DAY END-TO-END CONVERSION`
+                  ? `${c.windowDays}-day end-to-end conversion`
                   : c.grain === "events"
-                    ? "FINAL / ENTRY EVENT RATIO"
-                    : "FINAL / ENTRY USER REACH RATIO"}
+                    ? "Final / entry event ratio"
+                    : "Final / entry user reach ratio"}
               </span>
               <div
                 className="fi-hero"
@@ -373,30 +365,51 @@ export default function FrictionLabApp() {
                 </p>
               )}
             </div>
-            <div className="fi-reading">
-              <div className="fi-reading-heading">
+            <aside className="fi-reading" aria-label="Selected stage details">
+              <div className="fi-inspector-heading">
+                <span className="fi-eyebrow">Stage details</span>
+                <span className="fi-inspector-index">{selected + 1} of 3</span>
+              </div>
+              <div key={inspected.stage} className="fi-inspector-content">
+                <h3>{LABELS[inspected.stage]}</h3>
+                <div className="fi-inspector-value">{n(inspected.count)} <span>{analysis.unit}</span></div>
+                <dl className="fi-inspector-stats">
+                  <div>
+                    <dt>{selected ? (cohort ? "Step conversion" : "Stage ratio") : "Entry population"}</dt>
+                    <dd>{selected ? pct(inspected.rate) : n(inspected.count)}</dd>
+                  </div>
+                  {selected > 0 && <div>
+                    <dt>Previous stage</dt>
+                    <dd>{n(inspected.denominator)}</dd>
+                  </div>}
+                  <div>
+                    <dt>{cohort ? "Observed loss" : "Loss inference"}</dt>
+                    <dd>{inspected.loss === null ? "—" : n(inspected.loss)}</dd>
+                  </div>
+                </dl>
+                {selected > 0 && cohort && <p className="fi-inspector-interval">95% Wilson interval<br /><strong>{intervalLabel(inspected.interval)}</strong></p>}
+                <a className="fi-inspector-link" href="#evidence">Trace this calculation <ArrowRight size={14} aria-hidden="true" /></a>
+              </div>
+              <div className="fi-priority">
                 <span className="fi-eyebrow">
                   {analysis.priority === "investigate"
-                    ? "INVESTIGATE FIRST"
+                    ? "Investigate first"
                     : analysis.priority === "small"
                       ? "SMALL SAMPLE · FRAGILE LEAD"
                       : analysis.priority === "measurement"
-                        ? "MEASUREMENT REVIEW FIRST"
-                        : "READ THE LIMITS"}
+                        ? "Measurement review first"
+                        : "Read the limits"}
                 </span>
+                <p>{describePriority(analysis)}</p>
+                <p className="fi-muted">
+                  {cohort
+                    ? analysis.biggest === null
+                      ? "Read the measurement limits before drawing a conclusion."
+                      : "The gap is observed. Its cause is still unknown."
+                    : "Instrument an ordered cohort before prioritizing a user friction point."}
+                </p>
               </div>
-              <h2 id="funnel-title">
-                {analysis.biggest === null
-                  ? "Counts before conclusions."
-                  : `${LABELS[analysis.metrics[analysis.biggest].stage]}.`}
-              </h2>
-              <p>{describePriority(analysis)}</p>
-              <p className="fi-muted">
-                {cohort
-                  ? "A missing next event is an observed gap. Motivation, usability and technical causes remain unknown."
-                  : "Instrument an ordered cohort before prioritizing a user friction point."}
-              </p>
-            </div>
+            </aside>
           </div>
           <FunnelChart
             analysis={analysis}
@@ -416,8 +429,7 @@ export default function FrictionLabApp() {
               {cohort ? "Observed loss from prior stage" : "No loss inferred"}
             </span>
             <span>
-              Select a stage below to inspect its denominator{" "}
-              <ArrowDown size={13} aria-hidden="true" />
+              Select a stage to inspect
             </span>
           </div>
           <div
@@ -430,7 +442,6 @@ export default function FrictionLabApp() {
                 aria-pressed={selected === i}
                 onClick={() => setSelected(i)}
               >
-                <span className="fi-stage-number">0{i + 1}</span>
                 <span>
                   <strong>{LABELS[m.stage]}</strong>
                   <span className="fi-stage-count">
@@ -440,7 +451,7 @@ export default function FrictionLabApp() {
                       : " · entry population"}
                   </span>
                 </span>
-                <span className="fi-stage-arrow" aria-hidden="true"><ArrowDown size={16} /></span>
+                <span className="fi-stage-arrow" aria-hidden="true"><ArrowRight size={15} /></span>
               </button>
             ))}
           </div>
@@ -540,8 +551,8 @@ function FunnelChart({
   return (
     <div className="fi-chart-wrap">
       <div className="fi-plot-heading" aria-hidden="true">
-        <span>{cohort ? "POPULATION TRACE" : "ACTIVITY TRACE"}</span>
-        <span>{a.unit.toUpperCase()} / ABSOLUTE COUNTS</span>
+        <span>{cohort ? "Users at each stage" : "Independent stage counts"}</span>
+        <span>Absolute counts</span>
       </div>
       <svg
         className="fi-chart"
@@ -595,7 +606,7 @@ function FunnelChart({
           aria-hidden="true"
         >
           <rect x="0" y="20" width={bar + 36} height="325" className="fi-selection-ground" />
-          <path d={`M0,33 V20 H13 M${bar + 23},20 H${bar + 36} V33 M0,332 V345 H13 M${bar + 23},345 H${bar + 36} V332`} className="fi-selection-corners" />
+
         </g>
         {a.metrics.slice(0, -1).map((m, i) => (
           <g key={m.stage} aria-hidden="true">
@@ -663,7 +674,7 @@ function FunnelChart({
         </g>
       </svg>
       <div className="fi-plot-caption">
-        <span>Inspecting stage 0{selected + 1}</span>
+        <span>Selected stage {selected + 1}</span>
         <span>{LABELS[a.metrics[selected].stage]}</span>
       </div>
     </div>
@@ -690,7 +701,7 @@ function StageEvidence({
     <>
       <div className="fi-section-heading">
         <div>
-          <span className="fi-eyebrow">02 / INSPECT THE EVIDENCE <span className="fi-section-reference">STAGE 0{selected + 1}</span></span>
+          <span className="fi-eyebrow">Evidence <span className="fi-section-reference">Stage {selected + 1}</span></span>
           <h2 id="evidence-title">{LABELS[m.stage]}</h2>
         </div>
         <button className="fi-button" onClick={onExperiment}>
@@ -706,10 +717,9 @@ function StageEvidence({
       <div className="fi-evidence-grid" key={m.stage}>
         <div>
           <div className="fi-observation-label">
-            OBSERVED /{" "}
             {dataset.provenance === "synthetic"
-              ? "SYNTHETIC COUNTS"
-              : "IMPORTED COUNTS"}
+              ? "Observed in the synthetic example"
+              : "Observed in the imported data"}
           </div>
           <p className="fi-observation">
             {selected === 0 ? (
@@ -768,7 +778,7 @@ function StageEvidence({
           )}
         </div>
         <div className="fi-inference">
-          <div className="fi-observation-label">POSSIBLE CAUSES / UNTESTED</div>
+          <div className="fi-observation-label">Interpretation</div>
           <h3>The reason is still unknown.</h3>
           <p>
             A missed event could reflect an incomplete journey, a tracking gap,
@@ -991,8 +1001,8 @@ function ExperimentBuilder({
     <>
       <div className="fi-section-heading">
         <div>
-          <span className="fi-eyebrow">03 / PROPOSE A MEASURABLE TEST</span>
-          <h2 id="experiment-title">A hypothesis, not a conclusion.</h2>
+          <span className="fi-eyebrow">Experiment</span>
+          <h2 id="experiment-title">Design the next test</h2>
         </div>
         <span className="fi-tag">DRAFT · NOT RUN</span>
       </div>
@@ -1021,14 +1031,14 @@ function ExperimentBuilder({
           ))}
         </div>
         <aside className="fi-test-rail">
-          <div className="fi-eyebrow">TEST TARGET</div>
+          <div className="fi-eyebrow">Test target</div>
           <h3>{LABELS[a.metrics[targetIndex].stage]}</h3>
           <p>
             Audience: {a.segment === "" ? "all supplied segments" : a.segment}.{" "}
             {dataset.contract.windowDays}-day declared window.
           </p>
           <div className="fi-rail-rule" />
-          <div className="fi-eyebrow">HYPOTHETICAL SCENARIO</div>
+          <div className="fi-eyebrow">Hypothetical scenario</div>
           {hypothetical ? (
             <>
               <label className="fi-slider">

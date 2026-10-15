@@ -26,7 +26,7 @@ const key = 'sd-research-ledger-v2';
 let backup;
 try {
   await check('Desktop identity, meaningful content, six-question matrix, no framework overlay', async () => {
-    await go(); await ready(); assert.match(await page.title(), /Account research.*SignalDesk/);
+    await go(); await ready(); assert.match(await page.title(), /SignalDesk.*Account research.*Zayyan Latif/);
     assert.equal(await page.getByRole('button', { name: /^Open .* research$/ }).count(), 3);
     assert.equal(await page.locator('.sd-r-cell.supported').count(), 15);
     assert.equal(await page.locator('vite-error-overlay').count(), 0); await noOverflow();
