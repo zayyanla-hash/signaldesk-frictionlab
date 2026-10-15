@@ -3,9 +3,14 @@
   "buildCommand": "npm ci && npm run build",
   "outputDirectory": "dist",
   "rewrites": [
-    { "source": "/signaldesk/:path*", "destination": "/index.html" },
-    { "source": "/frictionlab/:path*", "destination": "/index.html" },
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/signaldesk", "destination": "/signaldesk.html" },
+    { "source": "/signaldesk/", "destination": "/signaldesk.html" },
+    { "source": "/frictionlab", "destination": "/frictionlab.html" },
+    { "source": "/frictionlab/", "destination": "/frictionlab.html" },
+    { "source": "/signaldesk/:path*", "destination": "/app.html" },
+    { "source": "/frictionlab/:path*", "destination": "/app.html" },
+    { "source": "/((?!assets/).*)", "destination": "/app.html" }
   ],
   "headers": [
     {

@@ -29,6 +29,15 @@ describe('dist fixture routing', () => {
     expect(r.kind).toBe('file');
   });
 
+  it('serves route-specific initial metadata and a neutral workspace fallback', () => {
+    writeFileSync(join(dir, 'signaldesk.html'), '<title>SignalDesk</title>');
+    writeFileSync(join(dir, 'frictionlab.html'), '<title>FrictionLab</title>');
+    writeFileSync(join(dir, 'app.html'), '<meta name="robots" content="noindex,follow">');
+    for (const [route, file] of [['/signaldesk', 'signaldesk.html'], ['/signaldesk/', 'signaldesk.html'], ['/frictionlab', 'frictionlab.html'], ['/signaldesk/print/local-id', 'app.html'], ['/unknown', 'app.html']]) {
+      expect(resolveRequest(dir, route)).toEqual({ kind: 'file', fsPath: join(dir, file) });
+    }
+  });
+
   it('never serves index HTML for missing assets', () => {
     expect(resolveRequest(dir, '/assets/missing.js').kind).toBe('notfound');
   });

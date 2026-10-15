@@ -57,7 +57,8 @@ export default function ResearchWorkspaceApp() {
   const selected = workspace.accounts.find(a => a.id === (routeId ?? selectedId));
   const isPrint = /\/print\//.test(location.pathname);
   useEffect(() => { if (routeId) setSelectedId(routeId); }, [routeId]);
-  useEffect(() => { if (!isPrint) document.title = `${view === 'accounts' ? 'Account research' : view === 'import' ? 'Import research' : 'Research method'} · SignalDesk`; }, [view, isPrint]);
+  // The public project root is owned by RouteMetadata; workspace screens keep their descriptive titles.
+  useEffect(() => { if (!isPrint && !/^\/signaldesk\/?$/.test(location.pathname)) document.title = `${view === 'accounts' ? 'Account research' : view === 'import' ? 'Import research' : 'Research method'} · SignalDesk`; }, [view, isPrint, location.pathname]);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement)?.tagName;

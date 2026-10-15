@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
 import { runFrictionLabChecks } from './e2e-frictionlab.mjs';
+import { runSchemaChecks } from './e2e-schema.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const OUT = path.resolve(process.env.E2E_OUTPUT || path.join(ROOT, '.e2e-shots'));
@@ -120,6 +121,7 @@ try {
   });
   await check('Shared routes produce no browser errors', async () => assert.deepEqual(errors, []));
   await context.close();
+  await runSchemaChecks({ browser, base, out: OUT, check });
   await runFrictionLabChecks({ browser, base, root: ROOT, out: path.join(OUT, 'frictionlab'), check });
   await check('Complete SignalDesk evidence, qualification, persistence and export acceptance', async () => {
     await runNode('src/signaldesk/qa/browser.mjs', { SD_BASE: base, SD_OUTPUT: path.join(OUT, 'signaldesk'), SD_CHROME: executablePath });

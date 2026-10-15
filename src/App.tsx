@@ -1,10 +1,11 @@
 import type React from 'react';
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy } from 'react';
 import { Link, NavLink, Route, Routes } from 'react-router-dom';
 import { ArrowRight, Compass } from 'lucide-react';
 import ErrorBoundary from './components/ErrorBoundary';
 import { SignalDeskLogo } from './signaldesk/SignalDeskLogo';
 import { FrictionLabLogo } from './frictionlab/FrictionLabLogo';
+import RouteMetadata from './seo/RouteMetadata';
 
 // Code-split: each product app (and its own dependency tree) only loads when
 // a visitor actually navigates there, so the Home/404 bundle stays small.
@@ -24,6 +25,7 @@ function RouteFallback() {
 export default function App() {
   return (
     <>
+      <RouteMetadata />
       <a className="skip-link" href="#main">Skip to main content</a>
       <ErrorBoundary>
         <Suspense fallback={<RouteFallback />}>
@@ -59,10 +61,6 @@ function PortfolioLayout({ children }: { children: React.ReactNode }) {
 const TARGET_ROLES = ['Startup operations', "Founder's Office", 'Product operations', 'Technical generalist'];
 
 function Home() {
-  useEffect(() => {
-    document.title = 'Zayyan Latif — SignalDesk and FrictionLab';
-  }, []);
-
   return (
     <main className="page home" id="main" tabIndex={-1}>
       <header className="home-head">

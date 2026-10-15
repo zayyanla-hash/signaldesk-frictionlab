@@ -42,8 +42,7 @@ const MIME = {
  * - Traversal outside distRoot is rejected (notfound), never served.
  * - /assets/* serves only real files (missing assets 404, never index HTML),
  *   so broken hashed references stay visible instead of masquerading as HTML.
- * - index.html and / resolve to the entry document (SPA fallback for routes).
- * - Any other unmatched path falls back to index.html (SPA deep links).
+ * - Three portfolio roots have static metadata; workspace routes use a neutral shell.
  */
 export function resolveRequest(distRoot, urlPath) {
   let pathname;
@@ -59,6 +58,8 @@ export function resolveRequest(distRoot, urlPath) {
   const fsPath = resolve(root, `.${sep}${pathname.replace(/^[/\\]+/, '')}`);
   if (fsPath !== root && !fsPath.startsWith(root + sep)) return { kind: 'notfound' };
   if (pathname === '/' || pathname === '/index.html') return { kind: 'index' };
+  const routeDocument = { '/signaldesk': 'signaldesk.html', '/frictionlab': 'frictionlab.html' }[pathname.replace(/\/$/, '')];
+  if (routeDocument && existsSync(join(root, routeDocument))) return { kind: 'file', fsPath: join(root, routeDocument) };
   if (pathname === '/assets/' || pathname.startsWith('/assets/')) {
     // Generated asset paths serve files, never index HTML: a missing hashed
     // reference stays a visible 404, and escaped paths were rejected above.
@@ -78,7 +79,7 @@ export function resolveRequest(distRoot, urlPath) {
       // fall through to SPA fallback
     }
   }
-  return { kind: 'index' };
+  return existsSync(join(root, 'app.html')) ? { kind: 'file', fsPath: join(root, 'app.html') } : { kind: 'index' };
 }
 
 export function headersFor(kind, fsPath) {
