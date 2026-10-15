@@ -11,7 +11,7 @@ npm ci
 npm run dev -- --host 127.0.0.1 --port 5182 --strictPort
 ```
 
-Open `http://127.0.0.1:5182/signaldesk` directly. The repository Home page still describes the earlier combined portfolio; it is a shared integration surface and was deliberately left unchanged in this SignalDesk-only branch.
+Open `http://127.0.0.1:5182/signaldesk` directly. The independent SignalDesk branch left shared Home unchanged. On the integrated branch, Home and the root browser suites now describe both current apps; see `../INTEGRATION.md`.
 
 For the production bundle with the repository's existing strict security headers:
 
@@ -83,7 +83,7 @@ SD_BASE=http://127.0.0.1:5183 SD_OUTPUT=/absolute/path/to/qa-output node src/sig
 
 The browser suite uses installed Chrome on macOS; `SD_CHROME` selects another executable. It runs only local application actions. It covers desktop and 390px mobile layouts, company creation, URL tasks, hostile text, source verification, filters, keyboard navigation, persistence/reload, CSV quarantine, downloads, full backup restore, concurrent tabs, stale/conflicting claims, actual A4 PDF generation, long-export overflow, corrupt/quota storage, empty/missing accounts and a FrictionLab route smoke check.
 
-The old shared `scripts/e2e.mjs` targets retired SignalDesk controls. It was not rewritten because the concurrent FrictionLab branch also changes its workflows. Use the SignalDesk-specific suite above for this branch; coordinate the combined suite and shared Home copy at integration. No formal WCAG, Safari, Firefox, hosted CI or multiuser certification is claimed.
+The integrated branch updates the shared development/production browser suites for both current apps, while retaining this deeper SignalDesk-specific suite. No formal WCAG, Safari, Firefox, hosted CI or multiuser certification is claimed.
 
 ## Why this demonstrates operations and GTM judgment
 

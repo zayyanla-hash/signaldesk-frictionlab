@@ -167,7 +167,7 @@ try {
   await check('Empty workspace, missing account and shared FrictionLab route do not crash', async () => {
     await page.setViewportSize({width:1440,height:1000});await page.evaluate(k=>localStorage.setItem(k,'{"version":2,"accounts":[]}'),key);await go();await ready();await page.getByRole('heading',{name:'Start with a company',exact:true}).waitFor();
     await go('/signaldesk/brief/missing');await ready();await page.getByRole('heading',{name:'Account not found in this browser',exact:true}).waitFor();
-    await go('/frictionlab');await page.getByRole('heading',{name:'Signup to first useful action',exact:true}).first().waitFor();assert.match(await page.locator('body').innerText(),/FrictionLab/);
+    await go('/frictionlab');await page.locator('#analysis-title').waitFor();assert.match(await page.locator('body').innerText(),/FrictionLab/);
   });
   await check('Console health and app errors', async()=>assert.deepEqual(errors,[]));
   await writeFile(path.join(OUT,'browser-results.json'),JSON.stringify({base:BASE,viewports:['1440x1000','390x844'],checks:results,consoleErrors:errors},null,2));

@@ -1,47 +1,31 @@
-# Case studies
-Author: Zayyan Latif. No invented users, interviews, or outcomes. No real customers.
+# Work sample case studies
 
-## SignalDesk: which accounts deserve investigation?
+By Zayyan Latif, with AI coding assistance. These tools demonstrate product framing, implementation and reviewable analytical judgment. No customer, employment, interview or commercial outcome is claimed.
 
-- User and problem: a GTM hire needs to show how they would rank target accounts with
-  evidence a reviewer can check, instead of a black-box score.
-- Choices: two separate datasets (researched investigation examples as the default,
-  pure-fiction synthetic sample one switch away); heuristic weights in plain code with
-  per-criterion points shown and totals bounded 0-100; hard exclusions (headcount,
-  industry, domain, evidence quality, existing customer) that override scores and never
-  enter the approved export; fact vs hypothesis vs unknown vs next-step kept visually
-  separate with per-signal provenance (source URL, published vs collected dates);
-  strict CSV import validation with quarantine; review states gate exports; Markdown
-  briefs carry the active criteria, exclusion status, and provenance.
-- Non-goals: no live scraping, enrichment, outbound sending, LinkedIn automation,
-  CRM sync, or campaign management. No inference of buying intent from API docs.
-- Limitations: researched sources document webhook capabilities, not purchasing demand;
-  all researched records start in review with unknown headcount/geography and a
-  capability-based fit heuristic (share of 6 webhook capabilities confirmed documented
-  in each vendor's own official docs, cited in `fitResearch.json`, retrieved 2026-10-08).
-  Publication dates were not verified (shown Unknown). Headcount and buyer fit remain
-  unestablished for every researched company.
-- Proposed validation: give two sellers five blinded briefs and check whether their
-  shortlist matches the ranking, then interview where the brief misled them.
+## SignalDesk: can a reviewer trace a qualification decision?
 
-## FrictionLab: where does onboarding break down?
+The problem: account research often mixes a company's published facts, an analyst's hypotheses and missing information into one opaque score.
 
-- User and problem: a product hire needs to show funnel math a reviewer can recompute,
-  linked to real-looking evidence and ending in a reviewable handoff.
-- Choices: fixed snapshot and 7-day window in code; explicit-timezone timestamps with
-  UTC normalization; sequential step ordering required; duplicates (post-validation),
-  future events, malformed rows, out-of-order/outside-window/before-earliest, and
-  unjoinable accounts quarantined with event/account units; incomplete-window accounts
-  shown separately; median time-to-value labeled with its denominator; feedback.csv
-  import with quarantine; feedback themes editable and linked to source records with
-  missing-ID warnings and weak-join flags, including one conflicting record;
-  approvals bound to content plus an evidence snapshot and invalidated by edits or
-  upstream evidence changes; Markdown export plus validation-only mock and labeled
-  simulation with clearable receipts.
-- Non-goals: no auth, no server, no automatic external writes, no causal claims.
-- Limitations: all events and feedback are synthetic from a seeded generator; no real
-  user behavior is represented. GitHub live export is implemented but unverified
-  (mock only in this session; no live writes for proof).
-- Proposed validation: replay a known week of product events through the importer and
-  compare funnel counts to the warehouse query; usability-test whether a reviewer can
-  trace one issue from funnel to feedback to exported Markdown.
+The implementation uses explicit source records: narrow claim, exact excerpt, URL, publication date if known, retrieval date and human verification status. Qualification answers six questions with evidence; unknowns remain outside the assessed denominator. Stale or conflicting claims block the relevant question, and hypotheses earn no fact credit. Three independent public-source examples (Firecrawl, Resend and Exa) demonstrate the workflow without a private job ledger.
+
+Assisted imports preview unverified records. A pasted URL alone is a research task, not a fetched page. Users can edit the analysis, review the brief, export cited Markdown or a print-ready one-pager and retain a full research backup. Edits invalidate analyst review; a stale second tab cannot silently replace newer research.
+
+The tradeoff is deliberate human verification rather than fake automatic research. Qualification is a research-readiness heuristic, not buying intent, a hiring probability or personal job fit. Source-matched company statements are still company claims.
+
+Next validation would ask reviewers to trace a brief's assertions to their sources and identify unresolved questions. That research has not been conducted.
+
+## FrictionLab: can a reviewer recompute the funnel and assess the next test?
+
+The problem: a funnel can look precise while mixing events, independent unique users and ordered cohorts, or implying that a drop-off explains why people left.
+
+The implementation requires a grain, measurement interval, conversion window and observation cutoff before import. CSV validation rejects incompatible or impossible records atomically. Ordered, mature user cohorts support stage conversion, absolute loss and end-to-end conversion. Independent counts support descriptive ratios. Stage inspection exposes source rows or ordered user paths and their exact denominators. Sampling intervals carry their assumptions; small cohorts show fragile evidence.
+
+A connected funnel identifies the largest absolute observed loss as a transparent triage heuristic. Measurement anomalies take priority. Observations remain separate from untested possible causes. The experiment builder requires an audience, intervention, metric, guardrail, decision rule and instrumentation, then exports a one-page decision brief. Scenario upside is hypothetical and omitted as a forecast.
+
+The tradeoff is explicit analytical limits rather than manufactured precision. Aggregate nesting and group exclusivity require analyst assertions; cohort intervals do not capture tracking bias; no drop-off proves causality. All bundled fixtures are synthetic. The tool does not run experiments or supply a launch-ready power calculation.
+
+Next validation would reconcile a consented, deidentified cohort against an independently computed warehouse result and test whether reviewers can recompute a stage and challenge its proposed experiment. Neither customer validation nor a commercial result is claimed.
+
+## Verification
+
+The integrated unit and browser suites check both workflows, cross-app navigation and independent persistence, import failures, responsive/keyboard behavior and actual exported briefs. See [VERIFICATION.md](VERIFICATION.md) and the accompanying integration evidence report for commands, scope and results. Local Chromium checks are not formal accessibility certification or hosted deployment verification.

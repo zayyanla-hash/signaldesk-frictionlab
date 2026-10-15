@@ -37,10 +37,10 @@ let fixture = null;
 try {
   if (!existsSync(path.join(ROOT, 'dist', 'index.html'))) {
     console.log('FAIL - dist/index.html missing. Run `npm run build` first.');
-    process.exit(1);
+    throw new Error('Production fixture unavailable');
   }
   const port = await freePort();
-  fixture = spawn('node', ['scripts/serve-dist.mjs', '--port', String(port), '--serve-only'], {
+  fixture = spawn(process.execPath, ['scripts/serve-dist.mjs', '--port', String(port), '--serve-only'], {
     cwd: ROOT,
     stdio: 'ignore',
   });
@@ -49,7 +49,7 @@ try {
   let up = false;
   for (let i = 0; i < 30; i++) {
     try {
-      const res = await fetch(base);
+      const res = await fetch(base, { signal: AbortSignal.timeout(2000) });
       const text = res.ok ? await res.text() : '';
       if (res.ok && text.includes('id="root"')) {
         up = true;
@@ -62,7 +62,7 @@ try {
   }
   if (!up) {
     console.log('FAIL - dist fixture did not start');
-    process.exit(1);
+    throw new Error('Production fixture unavailable');
   }
   // CSP + cache headers on the production artifact, straight from the fixture.
   const rootRes = await fetch(base);
@@ -78,12 +78,12 @@ try {
     failures++;
   }
   // Hand off to the shared workflow suite against the production bundle.
-  const child = spawn('node', ['scripts/e2e.mjs'], {
+  const child = spawn(process.execPath, ['scripts/e2e.mjs'], {
     cwd: ROOT,
     env: { ...process.env, E2E_BASE: base },
     stdio: 'inherit',
   });
-  const code = await new Promise((resolve) => child.on('exit', (c) => resolve(c ?? 1)));
+  const code = await new Promise((resolve, reject) => { child.once('error', reject); child.once('exit', (c) => resolve(c ?? 1)); });
   if (code !== 0) failures++;
 } catch (e) {
   failures++;

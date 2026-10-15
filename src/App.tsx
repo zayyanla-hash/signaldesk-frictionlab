@@ -51,7 +51,7 @@ function PortfolioLayout({ children }: { children: React.ReactNode }) {
         </nav>
       </header>
       {children}
-      <footer className="foot">SignalDesk mixes researched documentation examples with a labeled synthetic sample; FrictionLab data is synthetic unless you import your own. No real customers, no live services required. Built by Zayyan Latif.</footer>
+      <footer className="foot">SignalDesk contains independent public-source research examples; FrictionLab examples are synthetic. Imports stay in this browser. No customer, employment or commercial results are claimed. Built by Zayyan Latif with AI coding assistance.</footer>
     </div>
   );
 }
@@ -64,7 +64,7 @@ function Home() {
   }, []);
 
   return (
-    <main className="page home" id="main">
+    <main className="page home" id="main" tabIndex={-1}>
       <header className="home-head">
         <p className="home-kicker">Zayyan Latif, operations and product generalist</p>
         <p className="home-roles">
@@ -78,23 +78,21 @@ function Home() {
         </p>
         <h1>SignalDesk and FrictionLab</h1>
         <p>
-          Two small working tools I built around problems I keep running into on GTM and product teams: deciding which accounts
-          are worth a closer look, and figuring out why new signups stall before they get value. Both open on example data,
-          so there is nothing to set up.
+          Two working tools for making a decision traceable: research an account from cited evidence, or inspect a funnel and design a measurable experiment. Both open on labeled examples, with no sign-in or paid API needed. I defined the product framing, evidence standards and review workflows, and built them with AI coding assistance.
         </p>
       </header>
 
       <section className="project" aria-labelledby="home-sd">
         <div className="project-text">
           <h2 id="home-sd"><Link to="/signaldesk">SignalDesk</Link></h2>
-          <p>Evidence-backed GTM account prioritization and finished account briefs for RelayWatch, a fictional integration-monitoring product.</p>
+          <p>A research ledger that turns public evidence into explained account qualification and a cited analyst brief.</p>
           <dl className="facts">
             <dt>Data</dt>
-            <dd>Twelve webhook vendors researched from their public docs, each with the source URL and retrieval date. A synthetic sample sits behind a switch. <span className="badge blue">Researched examples</span></dd>
+            <dd>Three independent public-source examples: Firecrawl, Resend and Exa. Each claim records its source, excerpt, dates and review status. <span className="badge blue">Researched examples</span></dd>
             <dt>Worth trying</dt>
-            <dd>Change the scoring weights in Target and Data and watch the ranking move, then approve a brief and download it.</dd>
+            <dd>Inspect the six-question qualification and its unknowns, add a source through assisted import, then review and export a cited brief.</dd>
             <dt>Honest limits</dt>
-            <dd>Sources show what a company has built, not that it wants to buy anything. Scores are heuristics.</dd>
+            <dd>Qualification is a research-readiness heuristic, not buying intent or job-fit probability. Source checking is manual; a URL alone does not fetch a page.</dd>
           </dl>
           <Link className="btn primary" to="/signaldesk">Open SignalDesk<ArrowRight className="icon sm" aria-hidden="true" /></Link>
         </div>
@@ -104,9 +102,9 @@ function Home() {
             <span>SignalDesk</span>
           </div>
           <div className="shot-stats">
-            <span className="chip">12 researched vendors</span>
-            <span className="chip">20 synthetic accounts</span>
-            <span className="chip">6-capability fit research</span>
+            <span className="chip">3 independent research examples</span>
+            <span className="chip">Cited evidence records</span>
+            <span className="chip">6-question qualification</span>
           </div>
         </div>
       </section>
@@ -114,14 +112,14 @@ function Home() {
       <section className="project" aria-labelledby="home-fl">
         <div className="project-text">
           <h2 id="home-fl"><Link to="/frictionlab">FrictionLab</Link></h2>
-          <p>Onboarding-funnel diagnostics, evidence-linked feedback, and reviewed issue handoff.</p>
+          <p>Funnel analysis and experiment design, from a declared data grain and window to an exportable decision brief.</p>
           <dl className="facts">
             <dt>Data</dt>
-            <dd>A seeded generator with a fixed snapshot on 2025-04-15 UTC, so the numbers are the same every time. <span className="badge blue">Synthetic sample</span></dd>
+            <dd>Clearly labeled synthetic aggregate and user-event fixtures. Validated CSV imports replace the example and declare their own grain, cohort and observation window. <span className="badge blue">Synthetic sample</span></dd>
             <dt>Worth trying</dt>
-            <dd>Paste a broken events CSV and see which rows get quarantined and why, then edit a feedback theme and notice the approval reset.</dd>
+            <dd>Import the eight-user fixture, inspect its mature-cohort exclusions and stage denominators, then draft a test and export a one-page brief.</dd>
             <dt>Honest limits</dt>
-            <dd>A funnel drop next to a few complaints is a lead, not a cause. The GitHub handoff in the public demo is a mock.</dd>
+            <dd>Independent event or user counts do not establish cohort conversion. An observed drop does not explain why it happened; proposed upside is hypothetical.</dd>
           </dl>
           <Link className="btn primary" to="/frictionlab">Open FrictionLab<ArrowRight className="icon sm" aria-hidden="true" /></Link>
         </div>
@@ -131,15 +129,15 @@ function Home() {
             <span>FrictionLab</span>
           </div>
           <div className="shot-stats">
-            <span className="chip">Seeded synthetic funnel</span>
-            <span className="chip">7-day activation window</span>
-            <span className="chip">Evidence-linked feedback</span>
+            <span className="chip">Explicit data grain</span>
+            <span className="chip">Inspectable denominators</span>
+            <span className="chip">Measurable experiment brief</span>
           </div>
         </div>
       </section>
 
       <p className="home-note">
-        Everything runs in the browser. There is no backend or account, and anything you import or edit stays on this device.
+        Both tools run locally in the browser. No backend, live research fetch, paid API or model-generated metrics are required. Imported data and drafts stay on this device; use synthetic or de-identified data for this work sample.
       </p>
     </main>
   );

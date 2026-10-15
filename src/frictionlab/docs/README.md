@@ -66,7 +66,7 @@ FRICTIONLAB_BASE=http://127.0.0.1:4193 node src/frictionlab/qa/run-browser.mjs
 
 The browser runner creates its own named TaskSpace, uses only the documented Ego API, saves screenshots, downloads the actual HTML brief, and writes a machine-readable check report under `.local/frictionlab-qa/`. It closes its TaskSpace on success. `FRICTIONLAB_QA_OUT` selects a different artifact folder; `FRICTIONLAB_SPACE` resumes a specifically authorized task space. No Browser plugin was listed in this session; rendered QA used the available Ego browser skill. No browser dependency was installed.
 
-The shared root `scripts/e2e.mjs` still targets the retired FrictionLab interface, and is **not** this branch's UI acceptance suite. Its replacement/integration is coordinated separately so the parallel SignalDesk session can retain ownership. Legacy FrictionLab library tests remain for compatibility. The shared Home copy also describes the earlier FrictionLab workflow; updated copy was sent to the SignalDesk session for later integration. No shared file was changed on this branch.
+On the integrated branch, the shared Home and root browser suites now describe and exercise this workflow alongside current SignalDesk. The independent FrictionLab branch preserves its original isolated scope; see `docs/INTEGRATION.md` at the repository root for the joint integration record. Legacy library tests remain compatibility guards.
 
 ## Statistical and product limits
 
@@ -78,6 +78,6 @@ The decision rule is a draft plan: a fresh baseline and a prospective power calc
 
 ## Ownership and integration
 
-Implementation is confined to `src/frictionlab/**`. Root config, dependencies, lockfile, shared libraries/components, SignalDesk, deployment configuration and public deployments are unchanged. The source checkout's existing untracked files were preserved. This branch is ready for review and integration, not deployed.
+The independent FrictionLab implementation commit is confined to `src/frictionlab/**`. The integrated branch adds current SignalDesk and coordinated shared Home, documentation and browser tests; see root `docs/INTEGRATION.md`. Root config, dependencies, lockfile, shared libraries/components and deployment configuration remain unchanged. The source checkout's existing untracked files were preserved. This branch is ready for local review and has not been deployed.
 
 Local persistence has been verified for one editing tab, including reload, corrupt saved shapes and unavailable/full storage. Concurrent editing in multiple tabs uses last-write-wins local storage; conflict resolution and cross-device sync are not implemented. Use one editing tab for this work sample.

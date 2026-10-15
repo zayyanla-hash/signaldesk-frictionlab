@@ -1,110 +1,35 @@
-# Verification
+# Integrated verification
 
-How to verify this repo's claims yourself, and what the current checks cover.
-Run the commands below in the project directory; they are the source of
-truth, not the numbers quoted here (which will go stale as the code changes).
+This branch combines the current SignalDesk and FrictionLab workflows. The source checkout and both independent app branches remain preserved. No deployment was performed.
 
-## Commands
+## Reproduce
 
 ```sh
-npm ci              # clean install from the lockfile
-npm run lint         # eslint flat config
-npm run typecheck    # tsc --noEmit
-npm test             # vitest unit suite
-npm run build        # production bundle in dist/
-npm audit            # dependency vulnerability scan
-npm run test:e2e      # browser workflow suite against the dev server
-npm run test:e2e:prod # same suite against the built dist/ bundle
+npm ci
+npm run lint
+npm run typecheck
+npm test
+npm run build
+npx playwright install chromium
+npm run test:e2e
+npm run test:e2e:prod
 ```
 
-At the time of this pass: `npm test` reported 21 files / 163 tests passing,
-`npm run lint` and `npm run typecheck` were clean, `npm run build` produced a
-working `dist/`, and `npm audit` reported 0 vulnerabilities. Re-run the
-commands for current numbers.
+`test:e2e` starts and stops a local development server. `test:e2e:prod` requires `dist/`, starts its own loopback production fixture, checks CSP/cache headers and runs the same combined workflows. Each suite writes screenshots, actual downloads and JSON results to `.e2e-shots/` by default. Set `E2E_OUTPUT` to preserve independent runs; `E2E_BASE` targets an existing server. Browser resolution is `E2E_CHROME`, installed macOS Chrome, then Playwright Chromium. No browser download happens during the suite itself.
 
-## What the automated suite covers
+## Coverage
 
-- **lib** (csv/datetime/utils/storage): record-level CSV parsing (multiline,
-  escapes, CRLF/BOM, duplicate headers, row width, malformed quoting,
-  physical row numbers, size bounds), strict UTC timestamps with explicit
-  timezones, hostname/URL validation, a hardened CSV-formula guard, and
-  versioned validated storage with visible recovery and sticky save errors.
-- **signaldesk** (scoring/export/csvImport/migration/researched/storageGuards):
-  deterministic scoring, component sums, exclusion override, bounded 0-100
-  totals under hostile weights (100s, NaN, negatives, extreme values),
-  weight/criteria validation, URL/date strictness, missing-evidence zeroing,
-  user-assertion labeling, criteria-aware eligible exports,
-  provenance-preserving briefs, and safe storage migration.
-- **frictionlab** (analytics/evidence/feedbackImport/githubAdapter): fixture
-  counts for a fixed-window funnel, event/account quarantine units, feedback
-  import quarantine (duplicates, timezones, future dates, unjoinable rows),
-  theme-edit approval invalidation, and the mock GitHub adapter's labeled
-  simulation and failure handling.
-- **scripts** (export-guards/repo-ownership/submission-receipts/serve-dist/
-  hosting-config/github-issue-live): the owner-run CLI's allowlist, canonical
-  approval check, ownership rules, locked/atomic receipts with
-  unknown-outcome refusal, and static-hosting config consistency across
-  Netlify/Vercel/the local fixture. The live-write tests run against a fake
-  `gh` binary — no real network calls.
+- Shared Home copy, provenance and limitations; keyboard skip link; same-session cross-app navigation; separate local storage; mobile routes; unknown-route recovery; runtime errors.
+- Current FrictionLab cohort counts and denominators; keyboard stage selection; aggregate validation and failed import atomicity; event deduplication and ordered-window maturity; independent counts versus cohort conversion; small/zero cohorts; persistence recovery; scenario labeling; actual HTML brief and A4 PDF; responsive layouts.
+- SignalDesk's full 18-group browser suite: evidence capture, validation, human verification, unknowns, stale/conflicting claims, explained qualification, drafts/review, persistence and stale tabs, backups, cited print/Markdown exports, responsive and keyboard behavior.
+- The 285-test unit suite includes retained compatibility libraries plus the current deterministic FrictionLab workbench/brief/workspace and SignalDesk research models. A passing legacy test does not imply a retired screen is still part of the product.
 
-## Browser checks
+Deeper independent Ego checks are reproducible with `node src/frictionlab/qa/run-browser.mjs` and `node scripts/qa/run-joint-browser.mjs`. Configure `FRICTIONLAB_BASE`/`FRICTIONLAB_QA_OUT` or `JOINT_BASE`/`JOINT_OUTPUT` to target a loopback fixture and save evidence. Set the corresponding `_SPACE` variable only when resuming an agent-owned Ego TaskSpace. The full FrictionLab suite has 45 checks; the independent joint suite has 18 checks, including byte-for-byte storage preservation during edits in each app and direct reloads with both stylesheets loaded.
 
-- `npm run test:e2e` and `npm run test:e2e:prod` drive the app with Playwright
-  against sandboxed, explicitly non-sandbox-bypassed system Chrome, at
-  desktop and mobile widths. They assert behavior (not just that pages
-  render): home + skip-link keyboard reachability, researched vs synthetic
-  brief resolution, provenance labels, safe external-link attributes, dataset
-  switching, exclusion propagation into exports, CSV quarantine, storage
-  persistence across reload, and zero horizontal overflow.
-- `npm run test:e2e:prod` additionally runs those workflows through the built
-  `dist/` bundle behind the same headers (CSP, no-store on the entry
-  document) that a static host would serve.
-- Screenshots in `.e2e-shots/` are test *output*, not substitutes for the
-  assertions above; the directory is gitignored.
+## Limits
 
-## Security and privacy
+Local Chromium verification is not Safari/Firefox coverage, formal WCAG certification or a hosted CI run. Responsive checks include 390px phone and 1440px desktop. Both one-page sample PDFs were checked for page count and visually reviewed; arbitrary imported text can still need editorial shortening. FrictionLab guards dense briefs before export. SignalDesk records have bounded text lengths.
 
-- No committed secrets; no `fetch`, XHR, WebSocket, EventSource, beacons, or
-  forms anywhere in `src/` — the bundle has no reachable external request
-  target.
-- No `dangerouslySetInnerHTML`; feedback and CSV imports render as text.
-  Source links render as anchors only for validated `http(s)` URLs, with
-  `target="_blank" rel="noopener"`.
-- CSV exports pass through a hardened `csvSafe` helper (formula triggers,
-  leading whitespace, control characters).
-- `scripts/github-issue.mjs` is owner-run only; it never prints raw tool
-  output or tokens. No live write has been performed from this repo — all
-  live-path tests use a fake `gh` binary.
-- Production CSP (verified against the built bundle): `default-src 'self';
-  base-uri 'self'; object-src 'none'; frame-ancestors 'none'; script-src
-  'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src
-  'self'; connect-src 'none'; form-action 'none'`. The `unsafe-inline` style
-  allowance exists because React renders some inline `style` attributes
-  (progress-bar widths); there are no inline `<script>` tags in the output.
+SignalDesk detects stale-tab edits; FrictionLab supports a single-tab workspace and can overwrite newer drafts across simultaneous tabs. No real customer data was imported. No network-based research fetch, paid API, outreach, GitHub issue creation, hosted deployment or commercial results were exercised or claimed.
 
-## Provenance
-
-- SignalDesk default: 12 researched webhook vendors
-  (`src/signaldesk/researchPacket.json`), each signal sourced to a primary
-  documentation URL with a retrieval date (publication dates are often
-  unknown and shown as such). All start in review with unknown
-  headcount/geography and a six-capability documentation-coverage fit score
-  (`src/signaldesk/fitResearch.json`). Sources document capabilities, never
-  purchasing demand.
-- A separate 20-account synthetic sample (fictional `.example` domains, no
-  public citations) sits one toggle away.
-- FrictionLab: a seeded generator (mulberry32, seed 42), fixed snapshot, and
-  a 7-day activation window. Built-in records are synthetic; imports are
-  user-provided and unverified.
-
-## Residuals and limits (honest)
-
-- FrictionLab's live GitHub integration is implemented but unverified end to
-  end: no authorized demo repository, no real `gh` calls outside tests.
-  Exactly-once delivery across network failures is not promised.
-- SignalDesk's researched evidence covers webhook capabilities only — no
-  demand, budget, buyer, or headcount signal is established for any vendor.
-- `npm run preview` is a local dev convenience only, never a production
-  server.
-- Browser e2e requires a local Chrome install and free ports; it has not been
-  run against Safari or Firefox.
+The accompanying integration evidence report records the exact final run results and source commit. App-specific scope reports remain under `docs/signaldesk/` and `src/frictionlab/docs/`.

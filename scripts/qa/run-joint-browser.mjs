@@ -1,0 +1,11 @@
+import { spawn } from 'node:child_process';
+import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const root = fileURLToPath(new URL('../..', import.meta.url));
+const config = { root, base: process.env.JOINT_BASE || 'http://127.0.0.1:4293', out: process.env.JOINT_OUTPUT || path.join(root, '.local/joint-browser'), space: process.env.JOINT_SPACE ? Number(process.env.JOINT_SPACE) : null };
+const body = await readFile(new URL('./joint-browser.mjs', import.meta.url), 'utf8');
+const child = spawn('ego-browser', ['nodejs'], { stdio: ['pipe', 'inherit', 'inherit'] });
+child.stdin.end(`globalThis.JOINT_QA_CONFIG=${JSON.stringify(config)};\n${body}`);
+child.on('error', e => { console.error(e); process.exitCode = 1; });
+child.on('exit', code => { process.exitCode = code ?? 1; });
