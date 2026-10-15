@@ -130,7 +130,9 @@ check(
       parseFloat(getComputedStyle(document.activeElement).outlineWidth) >= 2,
   ),
 );
-await page.click("text=Draft a test for this stage");
+// Use the native keyboard path; a sticky toolbar can cover an auto-scrolled pointer target.
+await page.focus("text=Draft a test for this stage");
+await page.keyboard.press("Enter");
 check(
   "test uses selected transition",
   (
@@ -472,10 +474,14 @@ check(
         ).disabled,
     )),
 );
-await page.click("text=Draft a test for this stage");
+// Use the native keyboard path; a sticky toolbar can cover an auto-scrolled pointer target.
+await page.focus("text=Draft a test for this stage");
+await page.keyboard.press("Enter");
 // Save the actual browser download, then inspect its contents and render it.
 await page.click("loc=css:.fi-stage-controls button:nth-child(2)");
-await page.click("text=Draft a test for this stage");
+// Use the native keyboard path; a sticky toolbar can cover an auto-scrolled pointer target.
+await page.focus("text=Draft a test for this stage");
+await page.keyboard.press("Enter");
 await capture({
   path: path.join(out, "frictionlab-experiment-desktop.png"),
 });
@@ -537,7 +543,9 @@ check(
 await page.evaluate(() => {
   Storage.prototype.setItem = window.__fiSetItem;
 });
-await page.click("text=Draft a test for this stage");
+// Use the native keyboard path; a sticky toolbar can cover an auto-scrolled pointer target.
+await page.focus("text=Draft a test for this stage");
+await page.keyboard.press("Enter");
 await page.waitForFunction(
   () =>
     document.querySelector(".fi-save")?.textContent === "Saved on this device",
