@@ -4,7 +4,8 @@
   "outputDirectory": "dist",
   "rewrites": [
     { "source": "/signaldesk/:path*", "destination": "/index.html" },
-    { "source": "/frictionlab/:path*", "destination": "/index.html" }
+    { "source": "/frictionlab/:path*", "destination": "/index.html" },
+    { "source": "/((?!assets/).*)", "destination": "/index.html" }
   ],
   "headers": [
     {

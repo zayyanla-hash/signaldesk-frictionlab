@@ -29,6 +29,13 @@ describe('hosting config consistency', () => {
     const destinations = Object.fromEntries(vercel.rewrites.map((r) => [r.source, r.destination]));
     expect(destinations['/signaldesk/:path*']).toBe('/index.html');
     expect(destinations['/frictionlab/:path*']).toBe('/index.html');
+    // Direct unknown URLs must reach the same recovery UI as client navigation.
+    // Keep this fallback last so explicit app routes remain reviewable.
+    expect(vercel.rewrites.at(-1)).toEqual({ source: '/((?!assets/).*)', destination: '/index.html' });
+    const fallback = new RegExp(`^${vercel.rewrites.at(-1).source}$`);
+    expect(fallback.test('/not-a-real-route')).toBe(true);
+    expect(fallback.test('/assets/missing.js')).toBe(false);
+    expect(vercel.headers[0].source).toBe('/(.*)');
     const flat = JSON.stringify(vercel.headers);
     expect(flat).toContain(CSP);
     expect(flat).toContain('no-store');
