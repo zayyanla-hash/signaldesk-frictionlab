@@ -385,7 +385,7 @@ await validateAndApply();
 check(
   "non-monotonic independent events render an activity ratio",
   (await text(".fi-hero")) === "400.0%" &&
-    (await text(".fi-primary")).includes("EVENT RATIO"),
+    /event ratio/i.test(await text(".fi-primary")),
 );
 check(
   "independent events have no conversion uncertainty or friction priority",
