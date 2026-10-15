@@ -1,23 +1,10 @@
-/**
- * FrictionLab mark: a 28px rounded-square tile with a funnel built from
- * three stacked horizontal bars of decreasing width, the narrowest picked
- * out in amber. Purely decorative — the visible wordmark text beside it is
- * the accessible name, so the mark itself is aria-hidden.
- */
+/** A measured narrowing: three offset cuts and a single selected endpoint. */
 export function FrictionLabLogo() {
   return (
-    <svg
-      width={28}
-      height={28}
-      viewBox="0 0 28 28"
-      aria-hidden="true"
-      focusable="false"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <rect width={28} height={28} rx={7} fill="#5B6CF0" />
-      <rect x={6} y={9} width={16} height={3} rx={1.5} fill="#FFFFFF" />
-      <rect x={8.5} y={13.5} width={11} height={3} rx={1.5} fill="#FFFFFF" />
-      <rect x={11} y={18} width={6} height={3} rx={1.5} fill="#F2A93B" />
+    <svg className="fi-logo" width={34} height={34} viewBox="0 0 34 34" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 5H31M7 13H27M11 21H23" fill="none" stroke="currentColor" strokeWidth="3" />
+      <path d="M15 29H19" fill="none" stroke="#e27b60" strokeWidth="4" />
+      <path d="M3 1V9M31 1V9" fill="none" stroke="currentColor" strokeWidth="1" opacity=".45" />
     </svg>
   );
 }

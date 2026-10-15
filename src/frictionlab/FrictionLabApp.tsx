@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ArrowDown,
@@ -11,6 +11,7 @@ import {
   X,
 } from "lucide-react";
 import "@fontsource-variable/dm-sans";
+import "@fontsource-variable/geist";
 import "./instrument.css";
 import { FrictionLabLogo } from "./FrictionLabLogo";
 import { downloadText } from "../lib/utils";
@@ -51,6 +52,8 @@ import {
 } from "./workspace";
 
 const n = (v: number) => v.toLocaleString("en-US");
+const motionBehavior = (): ScrollBehavior =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
 const initial = () => {
   try {
     return loadWorkspace(window.localStorage);
@@ -146,7 +149,7 @@ export default function FrictionLabApp() {
       "An unvalidated test proposal is ready to edit. No experiment has been launched.",
     );
     experimentRef.current?.scrollIntoView({
-      behavior: "smooth",
+      behavior: motionBehavior(),
       block: "start",
     });
     document.getElementById("hypothesis")?.focus({ preventScroll: true });
@@ -172,8 +175,12 @@ export default function FrictionLabApp() {
   };
   const c = workspace.dataset.contract;
   const cohort = c.grain === "cohort_users";
+  const overallReading = analysis.overall === null ? "—" : pct(analysis.overall);
   return (
     <div className="fi-root">
+      <a className="fi-skip-link" href="#main">
+        Skip to analysis
+      </a>
       <header className="fi-topbar">
         <Link to="/frictionlab" className="fi-brand">
           <FrictionLabLogo />
@@ -185,9 +192,9 @@ export default function FrictionLabApp() {
           </span>
         </Link>
         <nav aria-label="FrictionLab">
-          <a href="#main">Analyze</a>
-          <a href="#evidence">Evidence</a>
-          <a href="#experiment">Experiment</a>
+          <a href="#main"><span aria-hidden="true">01</span> Analyze</a>
+          <a href="#evidence"><span aria-hidden="true">02</span> Evidence</a>
+          <a href="#experiment"><span aria-hidden="true">03</span> Experiment</a>
         </nav>
         <Link to="/" className="fi-portfolio">
           Zayyan Latif <ArrowRight size={14} aria-hidden="true" />
@@ -203,8 +210,8 @@ export default function FrictionLabApp() {
         <div className="fi-heading">
           <div>
             <h1 id="analysis-title" tabIndex={-1}>
-              Find the friction.
-              <br className="fi-mobile-break" /> Design the test.
+              <span>Find the friction.</span>{" "}
+              <span className="fi-heading-next">Design the test.</span>
             </h1>
             <p>Trace every number. Separate what happened from why.</p>
           </div>
@@ -219,7 +226,7 @@ export default function FrictionLabApp() {
                   () =>
                     importRef.current?.scrollIntoView({
                       block: "start",
-                      behavior: "smooth",
+                      behavior: motionBehavior(),
                     }),
                   0,
                 );
@@ -314,6 +321,24 @@ export default function FrictionLabApp() {
           </details>
         </section>
         <section className="fi-analysis" aria-labelledby="funnel-title">
+          <div className="fi-instrument-header">
+            <span className="fi-eyebrow"><i aria-hidden="true" /> 01 / THE FUNNEL</span>
+                <label className="fi-segment">
+                  Segment
+                  <select
+                    value={workspace.segment}
+                    onChange={(e) => selectSegment(e.target.value)}
+                    disabled={analysis.valid.segments.length < 2}
+                  >
+                    <option value="">All supplied segments</option>
+                    {analysis.valid.segments.map((s) => (
+                      <option key={s} value={s}>
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+          </div>
           <div className="fi-analysis-top">
             <div className="fi-primary">
               <span className="fi-eyebrow">
@@ -323,8 +348,11 @@ export default function FrictionLabApp() {
                     ? "FINAL / ENTRY EVENT RATIO"
                     : "FINAL / ENTRY USER REACH RATIO"}
               </span>
-              <div className="fi-hero">
-                {analysis.overall === null ? "—" : pct(analysis.overall)}
+              <div
+                className="fi-hero"
+                style={{ "--fi-reading-characters": overallReading.length } as CSSProperties}
+              >
+                {overallReading}
               </div>
               <p>
                 <strong>{n(analysis.metrics[2].count)}</strong>{" "}
@@ -356,21 +384,6 @@ export default function FrictionLabApp() {
                         ? "MEASUREMENT REVIEW FIRST"
                         : "READ THE LIMITS"}
                 </span>
-                <label className="fi-segment">
-                  Segment
-                  <select
-                    value={workspace.segment}
-                    onChange={(e) => selectSegment(e.target.value)}
-                    disabled={analysis.valid.segments.length < 2}
-                  >
-                    <option value="">All supplied segments</option>
-                    {analysis.valid.segments.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
-                </label>
               </div>
               <h2 id="funnel-title">
                 {analysis.biggest === null
@@ -427,7 +440,7 @@ export default function FrictionLabApp() {
                       : " · entry population"}
                   </span>
                 </span>
-                <span className="fi-stage-arrow">↗</span>
+                <span className="fi-stage-arrow" aria-hidden="true"><ArrowDown size={16} /></span>
               </button>
             ))}
           </div>
@@ -511,17 +524,28 @@ function FunnelChart({
   cohort: boolean;
 }) {
   const max = Math.max(1, ...a.metrics.map((m) => m.count));
-  const xs = [100, 440, 780];
-  const bar = 110;
-  const top = 40;
-  const height = 190;
+  const xs = [110, 405, 700];
+  const bar = 112;
+  const top = 62;
+  const height = 240;
   const base = top + height;
   const ys = a.metrics.map((m) => base - (m.count / max) * height);
+  // Low-volume datasets need distinct integer ticks, including a true zero.
+  const ticks = [...new Set([0, 0.25, 0.5, 0.75, 1].map((p) => Math.round(max * p)))];
+  // Reserve space for the exact labels even at the largest valid counts.
+  // The mobile type sizes are the limiting case, so these gutters also fit desktop.
+  const axisGutter = Math.max(0, n(max).length * 15 - 43);
+  const lossCharacters = Math.max(...a.metrics.map((m) => m.loss === null ? 0 : n(m.loss).length + 1));
+  const lossGutter = cohort ? Math.max(0, lossCharacters * 17 - 80) : 0;
   return (
     <div className="fi-chart-wrap">
+      <div className="fi-plot-heading" aria-hidden="true">
+        <span>{cohort ? "POPULATION TRACE" : "ACTIVITY TRACE"}</span>
+        <span>{a.unit.toUpperCase()} / ABSOLUTE COUNTS</span>
+      </div>
       <svg
         className="fi-chart"
-        viewBox="0 0 1000 285"
+        viewBox={`0 0 ${930 + axisGutter + lossGutter} 378`}
         role="img"
         aria-labelledby="chart-title chart-desc"
       >
@@ -540,59 +564,59 @@ function FunnelChart({
         <defs>
           <pattern
             id="fi-hatch"
-            width="5"
-            height="5"
+            width="6"
+            height="6"
             patternTransform="rotate(35)"
             patternUnits="userSpaceOnUse"
           >
-            <rect width="5" height="5" fill="#fbf0df" />
-            <line
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="5"
-              stroke="#c68a38"
-              strokeWidth="1"
-            />
+            <rect width="6" height="6" className="fi-hatch-ground" />
+            <line x1="0" y1="0" x2="0" y2="6" className="fi-hatch-line" />
           </pattern>
         </defs>
-        {[0, 0.5, 1].map((p) => (
-          <g key={p}>
+        <g transform={`translate(${axisGutter}, 0)`}>
+        {ticks.map((tick) => (
+          <g key={tick} aria-hidden="true">
             <line
-              x1="42"
-              y1={base - p * height}
-              x2="970"
-              y2={base - p * height}
-              className="fi-gridline"
+              x1="62"
+              y1={base - (tick / max) * height}
+              x2="906"
+              y2={base - (tick / max) * height}
+              className={tick === 0 ? "fi-baseline" : "fi-gridline"}
             />
-            <text x="8" y={base - p * height + 4} className="fi-axis">
-              {n(Math.round(max * p))}
+            <line x1="54" x2="62" y1={base - (tick / max) * height} y2={base - (tick / max) * height} className="fi-calibration" />
+            <text x="43" y={base - (tick / max) * height + 4} textAnchor="end" className="fi-axis">
+              {n(tick)}
             </text>
           </g>
         ))}
+        <g
+          className="fi-selection-frame"
+          style={{ transform: `translateX(${xs[selected] - 18}px)` }}
+          aria-hidden="true"
+        >
+          <rect x="0" y="20" width={bar + 36} height="325" className="fi-selection-ground" />
+          <path d={`M0,33 V20 H13 M${bar + 23},20 H${bar + 36} V33 M0,332 V345 H13 M${bar + 23},345 H${bar + 36} V332`} className="fi-selection-corners" />
+        </g>
         {a.metrics.slice(0, -1).map((m, i) => (
-          <path
-            key={m.stage}
-            d={`M${xs[i] + bar},${ys[i]} C${xs[i] + 230},${ys[i]} ${xs[i + 1] - 110},${ys[i + 1]} ${xs[i + 1]},${ys[i + 1]} L${xs[i + 1]},${base} L${xs[i] + bar},${base} Z`}
-            fill="#dfe4f2"
-            opacity=".72"
-          />
+          <g key={m.stage} aria-hidden="true">
+            <path
+              d={`M${xs[i] + bar},${ys[i]} C${xs[i] + 210},${ys[i]} ${xs[i + 1] - 96},${ys[i + 1]} ${xs[i + 1]},${ys[i + 1]} L${xs[i + 1]},${base} L${xs[i] + bar},${base} Z`}
+              className="fi-flow-fill"
+            />
+            <path
+              d={`M${xs[i] + bar},${ys[i]} C${xs[i] + 210},${ys[i]} ${xs[i + 1] - 96},${ys[i + 1]} ${xs[i + 1]},${ys[i + 1]}`}
+              className="fi-flow-line"
+            />
+          </g>
         ))}
         {a.metrics.map((m, i) => (
           <g
             key={m.stage}
             aria-hidden="true"
-            className="fi-chart-stage"
+            className={`fi-chart-stage${selected === i ? " is-selected" : ""}`}
             onClick={() => setSelected(i)}
           >
-            <rect
-              x={xs[i] - 16}
-              y="8"
-              width={bar + 32}
-              height="256"
-              fill={selected === i ? "#eef0f7" : "transparent"}
-              rx="5"
-            />
+            <rect x={xs[i] - 18} y="20" width={bar + 36} height="325" fill="transparent" />
             {i > 0 && cohort && m.loss! > 0 && (
               <rect
                 x={xs[i]}
@@ -607,37 +631,41 @@ function FunnelChart({
               y={ys[i]}
               width={bar}
               height={Math.max(0, base - ys[i])}
-              fill={selected === i ? "#4e5ea4" : "#9ba6cf"}
-              rx="2"
+              className="fi-count-bar"
             />
+            <line x1={xs[i]} x2={xs[i] + bar} y1={ys[i]} y2={ys[i]} className="fi-count-cap" />
             <text
               x={xs[i] + bar / 2}
-              y={Math.max(26, ys[i] - 9)}
+              y={Math.max(46, ys[i] - 12)}
               textAnchor="middle"
               className="fi-chart-value"
             >
               {n(m.count)}
             </text>
             {i > 0 && cohort && (
-              <text
-                x={xs[i] + bar + 12}
-                y={Math.min(215, Math.max(65, ys[i - 1] + 22))}
-                className="fi-chart-loss"
-              >
-                −{n(m.loss!)}
-              </text>
+              <g>
+                <line x1={xs[i] + bar + 8} x2={xs[i] + bar + 20} y1={Math.min(286, Math.max(83, ys[i - 1] + 24)) - 5} y2={Math.min(286, Math.max(83, ys[i - 1] + 24)) - 5} className="fi-loss-leader" />
+                <text
+                  x={xs[i] + bar + 26}
+                  y={Math.min(286, Math.max(83, ys[i - 1] + 24))}
+                  className="fi-chart-loss"
+                >
+                  −{n(m.loss!)}
+                </text>
+              </g>
             )}
-            <text
-              x={xs[i] + bar / 2}
-              y="254"
-              textAnchor="middle"
-              className="fi-chart-label"
-            >
+            <text x={xs[i] + bar / 2} y="328" textAnchor="middle" className="fi-chart-label">
               0{i + 1}
             </text>
+            <circle cx={xs[i] + bar / 2} cy="345" r="3" className="fi-stage-dot" />
           </g>
         ))}
+        </g>
       </svg>
+      <div className="fi-plot-caption">
+        <span>Inspecting stage 0{selected + 1}</span>
+        <span>{LABELS[a.metrics[selected].stage]}</span>
+      </div>
     </div>
   );
 }
@@ -662,7 +690,7 @@ function StageEvidence({
     <>
       <div className="fi-section-heading">
         <div>
-          <span className="fi-eyebrow">02 / INSPECT THE EVIDENCE</span>
+          <span className="fi-eyebrow">02 / INSPECT THE EVIDENCE <span className="fi-section-reference">STAGE 0{selected + 1}</span></span>
           <h2 id="evidence-title">{LABELS[m.stage]}</h2>
         </div>
         <button className="fi-button" onClick={onExperiment}>
@@ -675,7 +703,7 @@ function StageEvidence({
           <ArrowRight size={14} aria-hidden="true" />
         </button>
       </div>
-      <div className="fi-evidence-grid">
+      <div className="fi-evidence-grid" key={m.stage}>
         <div>
           <div className="fi-observation-label">
             OBSERVED /{" "}
