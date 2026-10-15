@@ -3,7 +3,7 @@
    All styles stay inside .fi-root so the neighboring portfolio apps are isolated. */
 .fi-root {
   --fi-ink: #272922;
-  --fi-muted: #66675d;
+  --fi-muted: #626357;
   --fi-border: #d3d1c6;
   --fi-paper: #f4f2ea;
   --fi-surface: #fcfbf7;
@@ -186,7 +186,7 @@
 .fi-stage-controls button:hover { background: #e4e6d9; }
 .fi-stage-controls button[aria-pressed="true"] { background: #f0e1d4; }
 .fi-stage-controls button[aria-pressed="true"]::after { transform: scaleX(1); }
-.fi-stage-number { font: 21px var(--mono); letter-spacing: -.08em; color: #7d826f; }
+.fi-stage-number { font: 21px var(--mono); letter-spacing: -.08em; color: #626953; }
 .fi-stage-controls button[aria-pressed="true"] .fi-stage-number { color: var(--fi-series); }
 .fi-stage-controls strong { display: block; font-family: var(--fi-display); font-size: 13px; font-weight: 560; }
 .fi-stage-count { display: block; font-size: 10px; color: var(--fi-muted); margin-top: 5px; font-variant-numeric: tabular-nums; }

@@ -6,6 +6,7 @@ import path from "node:path";
 import process from "node:process";
 const root = fileURLToPath(new URL("../../..", import.meta.url));
 const config = {
+  screenshots: process.env.FRICTIONLAB_QA_SCREENSHOTS !== "0",
   root,
   base: process.env.FRICTIONLAB_BASE || "http://127.0.0.1:5193",
   out:

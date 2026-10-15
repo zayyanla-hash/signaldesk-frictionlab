@@ -13,6 +13,11 @@ const task = await taskSpace(
 );
 console.log({ spaceId: task.spaceId, base, out });
 const page = task.page("p1");
+// Capture can be disabled when the browser capture service is unavailable.
+// This never skips behavioral assertions; use independent visual evidence.
+const capture = async (options) => {
+  if (config.screenshots !== false) await page.screenshot(options);
+};
 const checks = [];
 function check(name, value, details) {
   checks.push({
@@ -89,7 +94,7 @@ check(
 await page.click('loc=css:button[aria-label="Dismiss notice"]');
 await page.evaluate(() => window.scrollTo(0, 0));
 check("hand-checkable overall reading", (await text(".fi-hero")) === "40.0%");
-await page.screenshot({
+await capture({
   path: path.join(out, "frictionlab-analysis-desktop.png"),
 });
 // Native keyboard navigation and activation, with visible focus.
@@ -200,7 +205,7 @@ check(
       ).disabled,
   ),
 );
-await page.screenshot({
+await capture({
   path: path.join(out, "frictionlab-validation-errors.png"),
 });
 await page.click("text=Load eight-user event fixture");
@@ -251,7 +256,7 @@ check(
   "small cohort warning rendered",
   (await text(".fi-reading")).includes("SMALL SAMPLE"),
 );
-await page.screenshot({
+await capture({
   path: path.join(out, "frictionlab-event-evidence.png"),
 });
 // Exercise actual file input, including read failure and >1 MB bounds.
@@ -471,7 +476,7 @@ await page.click("text=Draft a test for this stage");
 // Save the actual browser download, then inspect its contents and render it.
 await page.click("loc=css:.fi-stage-controls button:nth-child(2)");
 await page.click("text=Draft a test for this stage");
-await page.screenshot({
+await capture({
   path: path.join(out, "frictionlab-experiment-desktop.png"),
 });
 const downloadPromise = page.waitForEvent("download");
@@ -550,7 +555,7 @@ await page.cdp("Emulation.setDeviceMetricsOverride", {
 });
 await page.evaluate(() => window.scrollTo(0, 0));
 check("phone layout has no page overflow", !(await state()).pageOverflow);
-await page.screenshot({
+await capture({
   path: path.join(out, "frictionlab-analysis-mobile.png"),
   fullPage: true,
 });
@@ -599,6 +604,7 @@ await writeFile(
     {
       base,
       spaceId: task.spaceId,
+    screenshotsCaptured: config.screenshots !== false,
       checks,
       total: checks.length,
       passed: checks.filter((c) => c.pass).length,

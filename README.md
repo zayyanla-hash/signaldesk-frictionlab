@@ -1,5 +1,7 @@
 # SignalDesk + FrictionLab
 
+[Open the portfolio](https://zayyan-portfolio-labs-ascend4.vercel.app/) · [SignalDesk](https://zayyan-portfolio-labs-ascend4.vercel.app/signaldesk) · [FrictionLab](https://zayyan-portfolio-labs-ascend4.vercel.app/frictionlab)
+
 Two local browser tools by Zayyan Latif, built with AI coding assistance to make analytical judgment inspectable. Product framing, evidence standards and review workflows are the work sample. No commercial traction, customer relationship or employment is implied.
 
 - **SignalDesk** (`/signaldesk`): capture and verify public evidence, inspect six-question account qualification, separate facts from hypotheses and unknowns, and export a cited analyst brief. It opens on three independent public research examples: Firecrawl, Resend and Exa. Sources are attributed company claims, not proof of buying intent or personal job fit.
@@ -29,13 +31,15 @@ The root browser suites now exercise both current apps and Home against developm
 
 - [SignalDesk guide, schemas and acceptance runner](docs/signaldesk/README.md)
 - [SignalDesk verification](docs/signaldesk/VERIFICATION.md)
+- [SignalDesk design references and motion contract](docs/signaldesk/DESIGN.md)
 - [FrictionLab guide, schemas and acceptance runner](src/frictionlab/docs/README.md)
 - [FrictionLab calculation fixtures](src/frictionlab/fixtures/)
+- [FrictionLab design references and motion contract](src/frictionlab/docs/DESIGN_REFERENCES.md)
 - [Joint integration record](docs/INTEGRATION.md)
 
-Current entry points are `src/signaldesk/ResearchWorkspace.tsx` and `src/frictionlab/FrictionLabApp.tsx`. Each app owns its styles and storage namespace. Older libraries remain for compatibility and their unit guards; they do not describe current screens. Shared Home lives in `src/App.tsx`. No dependency, lockfile, hosting or deployment configuration was changed for this integration.
+Current entry points are `src/signaldesk/ResearchWorkspace.tsx` and `src/frictionlab/FrictionLabApp.tsx`. Each app owns its styles and storage namespace. Older libraries remain for compatibility and their unit guards; they do not describe current screens. Shared Home lives in `src/App.tsx`. The redesign adds no dependencies or lockfile changes. A release follow-up adds an assets-excluded SPA fallback in `vercel.json`, keeping direct recovery routes consistent with the tested app while missing hashed assets remain 404.
 
-The published portfolio and deployments predate this local integration. This branch has not been publicly deployed.
+The production target is the existing `ascend4/zayyan-portfolio-labs` Vercel project. Releases stage a production build, verify it, then promote the same build; pushing this branch does not itself publish it. The release handoff records the actual deployed commit and live smoke results.
 
 ## Storage and exports
 

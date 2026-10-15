@@ -8,11 +8,11 @@ the license of this repository's own code.
 
 - **Untitled UI React** — github.com/untitleduico/react. Design tokens and
   theme foundation in `src/styles/untitled-theme.css`, plus components under
-  `src/components/untitled/`, used as SignalDesk's visual foundation.
+  `src/components/untitled/`, retained from SignalDesk's earlier visual foundation.
   License: MIT — https://github.com/untitleduico/react/blob/main/LICENSE.md
 - **Tremor** (template-insights) — github.com/tremorlabs/template-insights.
-  Components under `src/components/tremor/`, used as FrictionLab's
-  Insights-style chart and table foundation.
+  Components under `src/components/tremor/`, retained from FrictionLab's earlier
+  Insights-style chart and table foundation. The current connected instrument is bespoke.
   License: MIT — https://github.com/tremorlabs/tremor/blob/main/LICENSE
 - **shadcn/ui**, as packaged in shadcn-admin — github.com/satnaing/shadcn-admin.
   The `Popover` primitive wrapper in `src/components/ui/popover.tsx` and the
@@ -38,3 +38,35 @@ Self-hosted via `@fontsource` so the Content-Security-Policy can stay
 All of the above are redistributed under their original licenses. No
 proprietary assets from any reference product (see
 `docs/design-reference.md`) are included.
+
+## Current interaction patterns — VengeanceUI (MIT)
+
+The current FrictionLab navigation and SignalDesk source citations adapt
+the free `LineHoverLink` slide underline pattern from
+[VengeanceUI](https://github.com/Ashutoshx7/VengeanceUI).
+Their scope, sources and motion choices are documented in
+[src/frictionlab/docs/DESIGN_REFERENCES.md](src/frictionlab/docs/DESIGN_REFERENCES.md)
+and [docs/signaldesk/DESIGN.md](docs/signaldesk/DESIGN.md).
+No VengeanceUI runtime or package is installed. The original notice is preserved below.
+
+MIT License
+
+Copyright (c) 2025-2026 Ashutoshx7
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
