@@ -1,9 +1,22 @@
 # SignalDesk + FrictionLab
 
-By Zayyan Latif. **Live demo:** https://zayyan-portfolio-labs-ascend4.vercel.app (no sign-in, opens on example data).
+By Zayyan Latif. **[Current live demo](https://zayyan-portfolio-labs-ascend4.vercel.app)** · **[Current product case study](https://zayyanlatif.com/work/signaldesk-frictionlab)**
 
-Two small, working tools, built to show how I think about GTM and product
-problems, not slideware.
+## Choose what to review
+
+**This repository is an earlier public source release. The hosted demo has since evolved and is not a deployment of this checkout.**
+
+- **Current hosted demo:** SignalDesk opens with three independent public-source account examples (Firecrawl, Resend, and Exa), an evidence ledger, qualification questions, and cited analyst briefs. FrictionLab supports synthetic funnel examples, declared data grain and observation windows, and experiment briefs.
+- **Source in this repository:** SignalDesk includes 12 researched webhook-vendor examples plus a separate 20-account synthetic dataset. FrictionLab implements a fixed-window event funnel, linked feedback, and a reviewed mock issue handoff.
+- **To reproduce this source release:** use the local setup and source walkthrough below. Its tests and CI validate this checkout, not the newer hosted application.
+
+Both versions are portfolio work samples. Public-source research does not establish buying intent, and synthetic funnel metrics are not customer results.
+
+## This source release
+
+Two browser tools for GTM research and product operations: deciding which
+accounts deserve investigation and where an onboarding workflow needs attention.
+These are portfolio demos, with public-source research and labeled synthetic data.
 
 - **SignalDesk** (`/signaldesk`): evidence-backed GTM account prioritization
   with sourced-fact account briefs, for RelayWatch, a fictional
@@ -15,7 +28,9 @@ Both open on populated example data. No login, upload, API key, or live
 service required. Everything runs locally in the browser: nothing is sent
 anywhere, and anything you import or edit stays on this device.
 
-## Try this in 60 seconds
+[Product decisions and tradeoffs](CASE_STUDIES.md) · [Demo walkthrough](WALKTHROUGH.md) · [Reproduce the checks](VERIFICATION.md) · [CI results](https://github.com/zayyanla-hash/signaldesk-frictionlab/actions/workflows/ci.yml)
+
+## Try this source release in 60 seconds
 
 - **SignalDesk:** open `/signaldesk`, change a scoring weight in Target and
   Data, and watch the ranking move. Open a researched account brief, then
@@ -24,7 +39,7 @@ anywhere, and anything you import or edit stays on this device.
   then open Evidence to see the linked feedback behind it. Paste a broken
   events CSV and watch rows get quarantined with reasons.
 
-## Honest limits
+## Source-release limits
 
 - SignalDesk's default dataset is **12 researched webhook vendors**, sourced
   from each vendor's own public documentation (URL + retrieval date per
@@ -41,7 +56,7 @@ anywhere, and anything you import or edit stays on this device.
   a few complaints is a lead, not a cause.
 - FrictionLab's GitHub handoff in this public demo is a **mock**: a
   validation-only adapter plus a labeled simulation. No live GitHub write
-  happens from the hosted demo.
+  happens from this source release's browser UI.
 - No secrets are committed, no credentials ship in the bundle, and the app
   makes no outbound network requests.
 
